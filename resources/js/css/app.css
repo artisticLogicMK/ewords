@@ -1,0 +1,74 @@
+@import 'tailwindcss';
+
+/*@import "tw-animate-css";*/
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (&:is(.dark *));
+
+body, html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+  --echo-dark-400: #012336;
+  --echo-dark-500: #000508;
+}
+
+.barlow-condensed-regular {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.barlow-condensed-semibold {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.barlow-condensed-bold {
+  font-family: "Barlow Condensed", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+  
+
+.btn-grad {
+  @apply bg-linear-to-b from-blue-500 to-blue-700
+}
+
+.btn-grad-dark {
+  @apply bg-linear-to-b from-blue-900 bg-blue-950
+}
+
+.btns {
+  @apply text-sm text-white font-semibold rounded-full p-4 hover:opacity-90
+}
+
+.btns-sm {
+  @apply text-sm text-white rounded-lg px-3 py-2
+}
+
+.text-dark { color: var(--echo-dark-400) }
+.text-primary { @apply text-blue-500 }
+
+
+.opacity-hide { @apply opacity-0 }
+.opacity-show { @apply opacity-100 }
+
+.pagination {
+  @apply flex items-center justify-between text-sm text-black/65 py-2 px-4 sm:px-6
+}
+.pagination .page-links {
+  @apply  flex space-x-2
+}
+.pagination a {
+  @apply  border rounded-md px-3 py-1 border-neutral-200 hover:bg-neutral-200/80
+}
