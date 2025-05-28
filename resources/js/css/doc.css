@@ -1,0 +1,139 @@
+@import 'tailwindcss';
+
+/* Ensure torch-doc & .ql-editor content retains styles */
+.torch-doc, .ql-editor {
+  line-height: 1.6;
+  font-family: "Poppins", serif;
+  @apply text-sm text-slate-700
+}
+
+.torch-doc.ql-editor {
+  padding: 0;
+  height: auto;
+  min-height: auto;
+}
+.torch-doc p, .ql-editor p {
+  @apply mb-3;
+}
+
+.torch-doc img.emoji, .ql-editor img.emoji {
+  display: inline-block;
+  vertical-align: middle;
+  height: 0.9em;
+  width: 0.9em;
+  margin: -2px 2px 0px 2px;
+}
+
+/* Text Formatting */
+.torch-doc b, .ql-editor b,
+.torch-doc strong, .ql-editor strong {
+  font-weight: bold;
+}
+
+.torch-doc i, .ql-editor i,
+.torch-doc em, .ql-editor em {
+  font-style: italic;
+}
+
+.torch-doc u, .ql-editor u {
+  text-decoration: underline;
+}
+
+.torch-doc s, .ql-editor s,
+.torch-doc strike, .ql-editor strike {
+  text-decoration: line-through;
+}
+
+/* Headings */
+.torch-doc h1, .ql-editor h1,
+.torch-doc h2, .ql-editor h2,
+.torch-doc h3, .ql-editor h3 {
+  @apply mb-3;
+}
+
+.torch-doc h1, .ql-editor h1 {
+  font-size: 1.7em;
+  font-weight: bold;
+}
+
+.torch-doc h2, .ql-editor h2 {
+  font-size: 1.45em;
+  font-weight: bold;
+}
+
+.torch-doc h3, .ql-editor h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+/* Text Color & Background */
+.torch-doc span[style*="color"], .ql-editor span[style*="color"] {
+  display: inline;
+}
+
+.torch-doc span[style*="background"], .ql-editor span[style*="background"] {
+  display: inline;
+  padding: 2px;
+}
+
+/* Blockquote */
+.torch-doc blockquote, .ql-editor blockquote {
+  border-left: 4px solid #ccc;
+  margin: 0;
+  padding-left: 1em;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* ✅ Quill Text Alignment Classes */
+.torch-doc .ql-align-center, .ql-editor .ql-align-center {
+  text-align: center;
+}
+
+.torch-doc .ql-align-right, .ql-editor .ql-align-right {
+  text-align: right;
+}
+
+.torch-doc .ql-align-justify, .ql-editor .ql-align-justify {
+  text-align: justify;
+}
+
+/* ✅ Quill Lists */
+.torch-doc ul, .ql-editor ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.torch-doc ol, .ql-editor ol {
+  list-style-type: decimal;
+  padding-left: 20px;
+}
+
+/* ✅ Quill Indents */
+.torch-doc .ql-indent-1, .ql-editor .ql-indent-1 {
+  padding-left: 20px;
+}
+
+.torch-doc .ql-indent-2, .ql-editor .ql-indent-2 {
+  padding-left: 40px;
+}
+
+.torch-doc .ql-indent-3, .ql-editor .ql-indent-3 {
+  padding-left: 60px;
+}
+
+/* ✅ Quill Subscript & Superscript */
+.torch-doc .ql-script-sub, .ql-editor .ql-script-sub {
+  vertical-align: sub;
+  font-size: smaller;
+}
+
+.torch-doc .ql-script-super, .ql-editor .ql-script-super {
+  vertical-align: super;
+  font-size: smaller;
+}
+
+/* ✅ Quill Video Embeds */
+.torch-doc .ql-video, .ql-editor .ql-video {
+  @apply w-full max-w-lg aspect-video my-1 rounded-lg;
+}

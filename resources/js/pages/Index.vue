@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue'
 import initScrollAnimations from '@/lib/scrollAnimations'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head } from '@inertiajs/vue3'
 
 import AppLayout from '@/layouts/AppLayout.vue'
 import Hero from '@/components/home/Hero.vue'

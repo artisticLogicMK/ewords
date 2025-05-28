@@ -1,5 +1,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
+import { onMounted } from 'vue'
+import initScrollAnimations from '@/lib/scrollAnimations'
 import AppLayout from '@/layouts/AppLayout.vue'
 import PagesHeader from '@/components/PagesHeader.vue'
 import CompetitionCard from '@/components/CompetitionCard.vue'
@@ -36,6 +38,10 @@ const competitions = [
         current: false
     },
 ]
+
+onMounted(() => {
+    initScrollAnimations()
+})
 </script>
 
 <template>
@@ -46,18 +52,18 @@ const competitions = [
         <PagesHeader
             title="Competitions"
             :breadcumb="breadcumb"
-            class="mb-25"
+            class="mb-25 scale-in"
         />
 
         <main class="w-full max-w-2xl mx-auto mb-30">
 
-            <h1 class="text-4xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-3 text-center">Competitions</h1>
+            <h1 class="text-4xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-3 text-center slide-up">Competitions</h1>
 
             <div class="w-fit mx-auto mb-3">
                 <CompetitionCard v-for="comp in competitions" :key="comp.title" :competition="comp" />
             </div>
 
-            <div class="pagination mb-3">
+            <div class="pagination mb-3 slide-up">
                 <p>Viewing 10 of 26</p>
 
                 <div class="page-links">
@@ -66,7 +72,7 @@ const competitions = [
                 </div>
             </div>
 
-            <div class="w-full flex justify-center">
+            <div class="w-full flex justify-center slide-up">
                 <a class="btns btn-grad bg-blue-500 slide-up">View Past Winners</a>
             </div>
 

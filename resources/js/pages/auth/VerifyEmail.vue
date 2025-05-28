@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
-import { LoaderCircle } from 'lucide-vue-next';
+import { Head, useForm, Link } from '@inertiajs/vue3';
 
 defineProps<{
     status?: string;
@@ -25,12 +23,11 @@ const submit = () => {
         </div>
 
         <form @submit.prevent="submit" class="space-y-6 text-center">
-            <Button :disabled="form.processing" variant="secondary">
-                <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
+            <Button :disabled="form.processing" :loading="form.processing">
                 Resend verification email
             </Button>
 
-            <TextLink :href="route('logout')" method="post" as="button" class="mx-auto block text-sm"> Log out </TextLink>
+            <Link :href="route('logout')" method="post" as="button" class="mx-auto block text-sm"> Log out </Link>
         </form>
     </AuthLayout>
 </template>

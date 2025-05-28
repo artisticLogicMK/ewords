@@ -1,36 +1,41 @@
-<script setup lang="ts">
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '../components/PlaceholderPattern.vue';
+<script setup>
+import { Head, Link } from '@inertiajs/vue3'
+import DashboardLayout from '@/layouts/DashboardLayout.vue'
+import { PhUsersThree } from '@phosphor-icons/vue'
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
-];
+defineProps(['competitions'])
 </script>
 
 <template>
     <Head title="Dashboard" />
 
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
-            <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
+    <DashboardLayout>
+        <div class="px-4 sm:px-6 py-5">
+
+            <div class="dbox">
+                <div class="flex justify-between px-4 sm:px-6 py-2 border-b bdr">
+                    <h1 class="text-lg text-[var(--echo-dark-400)] font-semibold">Competitions</h1>
+                    <Link href="/dashboard/new" class="bg-blue-500 text-white text-sm rounded-md px-3 py-1">Add</Link>
                 </div>
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
+
+                <div class="dlist" v-for="comp in competitions.data" :key="comp.id">
+                    <p>{{ comp.title }}</p>
+                    <div class="btn">
+                        <Link :href="`/dashboard/${comp.slug}`">Edit</Link>
+                        <Link :href="`/dashboard/${comp.slug}/paticipants`"><PhUsersThree /></Link>
+                    </div>
                 </div>
-                <div class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern />
+                
+            </div>
+
+            <div v-if="competitions.total > 1" class="pagination mt-3">
+                <p>Page {{ competitions.current_page }} of {{ competitions.total }}</p>
+                <div class="page-links">
+                    <Link :href="competitions.prev_page_url">Prev</Link>
+                    <Link :href="competitions.next_page_url">Next</Link>
                 </div>
             </div>
-            <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-                <PlaceholderPattern />
-            </div>
+
         </div>
-    </AppLayout>
+    </DashboardLayout>
 </template>
