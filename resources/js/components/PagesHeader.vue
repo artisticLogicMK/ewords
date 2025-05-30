@@ -5,11 +5,13 @@ import { PhCaretRight } from '@phosphor-icons/vue'
 
 const page = usePage()
 
-defineProps(['title', 'breadcumb', 'extra'])
+const props = defineProps(['title', 'breadcumb', 'extra', 'image'])
+
+const bgImage = props.image ? props.image : '/assets/mesh.png'
 </script>
 
 <template>
-    <header class="bg-sky-800 elliptical-background bg-[url('/assets/mesh.png')] bg-cover bg-center shadow-lgS">
+    <header class="bg-sky-800 elliptical-background jbg-[url('/assets/mesh.png')] bg-cover bg-center" :style="`background-image: url(${bgImage})`">
 
         <Header />
 

@@ -53,6 +53,7 @@ onMounted(() => {
             title="Competitions"
             :breadcumb="breadcumb"
             class="mb-25 scale-in"
+            :image="'/assets/mesh.png'"
         />
 
         <main class="w-full max-w-2xl mx-auto mb-30 px-4 sm:px-6">

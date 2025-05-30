@@ -62,7 +62,11 @@ button {
 }
 
 .btns-sm {
-  @apply text-sm text-white rounded-lg px-3 py-2
+  @apply text-sm text-white rounded-full px-3 py-1.5
+}
+
+.grad {
+  @apply bg-radial from-sky-600 to-[#000508]
 }
 
 .text-dark { color: var(--echo-dark-400) }
@@ -73,7 +77,7 @@ button {
 .opacity-show { @apply opacity-100 }
 
 .pagination {
-  @apply flex items-center justify-between text-sm text-black/65 py-2 px-4 sm:px-6
+  @apply flex items-center justify-between text-sm text-black/65 py-2
 }
 .pagination .page-links {
   @apply  flex space-x-2
