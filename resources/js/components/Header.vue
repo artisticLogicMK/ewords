@@ -30,7 +30,7 @@ const headlinks = [
         </button>
 
         <Transition @enter="vanishIn" @leave="vanishOut" data-av-ease="bounce">
-                <div v-if="showNav" class="navmodal fixed md:hidden z-10 top-0 left-0 flex flex-col items-center justify-center w-full h-full bg-[var(--echo-dark-400)]/[.98] px-4 sm:px-6 py-5">
+                <div v-if="showNav" class="navmodal fixed md:hidden z-20 top-0 left-0 flex flex-col items-center justify-center w-full h-screen bg-[var(--echo-dark-400)]/[.98] px-4 sm:px-6 py-5">
 
                 <div class="absolute top-0 left-0 flex justify-center w-full text-4xl text-white mt-5">
                     <PhXCircle @click="showNav = false" weight="light" class="cursor-pointer hover:scale-115" />
