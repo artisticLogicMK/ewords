@@ -9,7 +9,7 @@ defineProps(['competition'])
         </div>
 
         <div>
-            <h1 class="text-lg sm:text-2xl text-[var(--echo-dark-400)] barlow-condensed-bold">{{ competition.title }}</h1>
+            <h1 class="text-xl sm:text-2xl text-[var(--echo-dark-400)] barlow-condensed-bold">{{ competition.title }}</h1>
             <p class="text-sm text-black/70">{{ competition.description }}</p>
             <p v-if="competition?.current" class="flex items-center text-sm text-black/50">
                 <div class="h-2 w-2 bg-green-500 rounded-full animate-pulse mr-2"></div> On-going
