@@ -12,7 +12,7 @@ const breadcumb = [
     { name: "18th Spoken Words Contest", url: "/competitions" }
 ]
 
-constestants = [
+contestants = [
   { name: "Okafor Augustina Chigozie", pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ry4hDUEb2vxQAGRDTRor5jdAkvlIg28V8NRDx-MhXYqAiOkiXh9kynwp&s=10", votes: 27 },
   { name: "Christabel Bassey", pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScdAHPWjx0V3E3J4ZYdc13QHxJ8T8vww6plPK2LC4xEdvr0fODS1jlWK8&s=10", votes: 11 },
   { name: "Okafor Augustina Chigozie", pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqKU7bcz1k1Ks7A6oF2I63_OYkOc11hXlP9g&usqp=CAU", votes: 6 },
