@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 
-class CompetitionController extends Controller
+class DashboardController extends Controller
 {
     public function index()
     {
