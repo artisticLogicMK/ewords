@@ -55,7 +55,7 @@ onMounted(() => {
             class="mb-25 scale-in"
         />
 
-        <main class="w-full max-w-2xl mx-auto mb-30">
+        <main class="w-full max-w-2xl mx-auto mb-30 px-4 sm:px-6">
 
             <h1 class="text-4xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-3 text-center slide-up">Competitions</h1>
 

@@ -56,14 +56,14 @@ const currentYear = new Date().getFullYear()
 
         </div>
 
-        <div class="w-full max-w-4xl mx-auto text-white/90 text-sm flex items-center justify-between border-t border-white/10 py-3">
+        <div class="w-full max-w-4xl mx-auto text-white/90 text-xs sm:text-sm flex items-center justify-between border-t border-white/10 py-3">
             <p>&copy;{{currentYear}} - {{ $page.props.name }}.</p>
             <a href=""><span class="text-sky-500">Developed by</span> ArtisticLogic</a>
         </div>
 
         <div class="w-full max-w-4xl mx-auto text-white/90 text-sm border-t border-white/10 py-3">
             <h1 class="font-semibold mb-2">Disclaimer</h1>
-            <p>Our contests constitutes a competition and NOT an investment opportunity. We strongly discourage taking extreme measures for the purpose of participation or winning our contests. Participants assume all risks.</p>
+            <p class="t#xt-xs">Our contests constitutes a competition and NOT an investment opportunity. We strongly discourage taking extreme measures for the purpose of participation or winning our contests. Participants assume all risks.</p>
         </div>
 
     </footer>
@@ -72,7 +72,7 @@ const currentYear = new Date().getFullYear()
 <style scoped>
 @reference "@/css/app.css";
 .foot-item h1 {
-    @apply text-xl mb-5
+    @apply text-lg sm:text-xl mb-5
 }
 .foot-item .list {
     @apply flex items-center text-sm mb-3
@@ -81,7 +81,7 @@ const currentYear = new Date().getFullYear()
     @apply text-sm block hover:underline underline-offset-4 mb-2
 }
 .foot-item .list svg {
-    @apply mr-3 text-2xl
+    @apply mr-3 text-xl sm:text-2xl
 }
 .foot-item .list div {
     @apply text-sm

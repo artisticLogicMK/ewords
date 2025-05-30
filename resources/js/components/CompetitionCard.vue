@@ -3,7 +3,7 @@ defineProps(['competition'])
 </script>
 
 <template>
-    <div class="flex w-full items-center border-b border-neutral-200/90 last:border-none p-5 slide-up">
+    <div class="flex w-full items-center border-b border-neutral-200/90 last:border-none py-5 slide-up">
         <div class="shrink-0 w-fit h-fit bg-radial from-sky-600 to-[#000508] rounded-lg mr-5">
             <img src="/assets/trophy.png" class="w-24 scale-in" alt="">
         </div>
