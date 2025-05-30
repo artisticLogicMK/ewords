@@ -34,11 +34,11 @@ const competitions = [
     <section class="w-full max-w-2xl mx-auto px-4 sm:px-6">
 
         <div class="flex items-center justify-between mb-5 slide-up">
-            <h1 class="text-4xl text-[var(--echo-dark-400)] barlow-condensed-bold">Competitions</h1>
+            <h1 class="text-2xl sm:text-4xl text-[var(--echo-dark-400)] barlow-condensed-bold">Competitions</h1>
             <button class="btns btn-grad bg-blue-500">Join Competition</button>
         </div>
 
-        <div class="w-fit mx-auto mb-3">
+        <div class="w-full max-w-fit mx-auto mb-3">
             <CompetitionCard v-for="comp in competitions" :key="comp.title" :competition="comp" />
         </div>
 
