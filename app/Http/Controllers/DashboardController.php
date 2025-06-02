@@ -51,16 +51,16 @@ class DashboardController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
-            'cover' => 'nullable|image|max:2048', // validate image file if uploaded
-            'slug' => 'required|string|max:255|unique:competitions,slug,' . ($competition->id ?? 'null'),
+            'voting_active' => 'required',
+            'cover' => $request->hasFile('cover') ? 'image|max:2048' : 'nullable', // validate image file if uploaded
             'content' => 'nullable|string|max:100000',
             'past_winners_content' => 'nullable|string|max:100000',
             'winner' => 'nullable|string|max:255',
-            'winner_pic' => 'nullable|image|max:2048',
+            'winner_pic' => $request->hasFile('winner_pic') ? 'image|max:2048' : 'nullable',
             'first_runner' => 'nullable|string|max:255',
-            'first_runner_pic' => 'nullable|image|max:2048',
+            'first_runner_pic' => $request->hasFile('first_runner_pic') ? 'image|max:2048' : 'nullable',
             'second_runner' => 'nullable|string|max:255',
-            'second_runner_pic' => 'nullable|image|max:2048',
+            'second_runner_pic' => $request->hasFile('second_runner_pic') ? 'image|max:2048' : 'nullable',
             'registration_closes' => 'nullable|date',
             'first_voting_starts' => 'nullable|date',
             'first_voting_ends' => 'nullable|date',
@@ -68,13 +68,30 @@ class DashboardController extends Controller
             'second_voting_ends' => 'nullable|date',
         ]);
 
+        // 🔒 Prevent multiple active voting competitions
+        if ($data['voting_active'] == 1) {
+            $otherActiveExists = Competition::where('voting_active', 1)
+                ->where('id', '!=', $competition->id)
+                ->exists();
+
+            if ($otherActiveExists) {
+                return redirect()->back()
+                    ->with('error', 'You must deactivate all other competitions voting status to activate this one. Only 1 competition voting can be active!');
+            }
+        }
+
 
         $manager = new ImageManager(new Driver());
 
-        $folder = "competitions/{$data['slug']}";
+        $folder = "competitions/{$competition->slug}";
 
         foreach (['cover', 'winner_pic', 'first_runner_pic', 'second_runner_pic'] as $field) {
             if ($request->hasFile($field)) {
+                
+                if (!empty($competition->{$field}) && Storage::disk('public')->exists($competition->{$field})) {
+                    Storage::disk('public')->delete($competition->{$field});
+                }
+
                 $uploadedFile = $request->file($field);
 
                 // Read image and encode as JPEG (75% quality)
@@ -97,5 +114,22 @@ class DashboardController extends Controller
         return redirect()->route('competition.show', $competition->slug)
             ->with('success', 'Competition updated!');
     }
+
+
+    public function destroy(Competition $competition)
+    {
+        // Delete all files associated with competition
+        foreach (['cover', 'winner_pic', 'first_runner_pic', 'second_runner_pic'] as $field) {
+            if ($competition->{$field} && Storage::disk('public')->exists($competition->{$field})) {
+                Storage::disk('public')->delete($competition->{$field});
+            }
+        }
+
+        // Delete competition from db
+        $competition->delete();
+
+        return redirect()->route('competitions')->with('success', 'Competition deleted.');
+    }
+
 }
 ?>

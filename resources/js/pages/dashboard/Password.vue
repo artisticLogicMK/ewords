@@ -9,14 +9,7 @@ import { ref } from 'vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { type BreadcrumbItem } from '@/types';
-
-const breadcrumbItems: BreadcrumbItem[] = [
-    {
-        title: 'Password settings',
-        href: '/settings/password',
-    },
-];
+import DashboardLayout from '@/layouts/DashboardLayout.vue'
 
 const passwordInput = ref<HTMLInputElement | null>(null);
 const currentPasswordInput = ref<HTMLInputElement | null>(null);
@@ -51,12 +44,10 @@ const updatePassword = () => {
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbItems">
-        <Head title="Password settings" />
+        <Head title="Password Update" />
 
-        <SettingsLayout>
-            <div class="space-y-6">
-                <HeadingSmall title="Update password" description="Ensure your account is using a long, random password to stay secure" />
+        <DashboardLayout>
+            <div class="px-4 sm:px-6 py-5">
 
                 <form @submit.prevent="updatePassword" class="space-y-6">
                     <div class="grid gap-2">
@@ -109,11 +100,10 @@ const updatePassword = () => {
                             leave-active-class="transition ease-in-out"
                             leave-to-class="opacity-0"
                         >
-                            <p v-show="form.recentlySuccessful" class="text-sm text-neutral-600">Saved.</p>
+                            <p v-show="form.recentlySuccessful" class="text-sm text-green-500">Saved.</p>
                         </Transition>
                     </div>
                 </form>
             </div>
-        </SettingsLayout>
-    </AppLayout>
+        </DashboardLayout>
 </template>

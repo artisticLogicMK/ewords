@@ -4,7 +4,7 @@ import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button';
-import urlSlug from '@/lib/urlSlug'
+import moment from 'moment-timezone'
 
 const form = useForm({
   title: '',
@@ -13,7 +13,7 @@ const form = useForm({
 
 form.transform((data) => ({
   ...data,
-  slug: urlSlug(data.title)
+  slug: `spoken-words-${moment().format('DD-MMMM-YYYY')}-${Date.now()}`
 }))
 
 const submit = () => {

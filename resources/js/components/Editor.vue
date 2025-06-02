@@ -30,7 +30,7 @@ onMounted(() => {
         container: toolbarOptions,
       },
     },
-    placeholder: 'Compose your content...',
+    placeholder: 'Compose your content. Please use only compressed images.',
     theme: 'snow',
   })
 
@@ -58,8 +58,9 @@ onMounted(() => {
 @reference "@/css/app.css";
 
 .ql-container {
-  @apply rounded-b-md min-h-36
+  @apply rounded-b-md min-h-[160px]
 }
+
 .quill-wrapper .ql-toolbar.ql-snow {
   border-top-right-radius: 0.375rem!important;
   border-top-left-radius: 0.375rem!important;

@@ -1,28 +1,27 @@
 <script setup>
+import { nextTick, onMounted, ref } from 'vue'
 import { Head, Link, useForm, router } from '@inertiajs/vue3'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { PhFloppyDisk, PhLink } from '@phosphor-icons/vue'
+import { PhFloppyDisk, PhLink, PhToggleRight, PhToggleLeft } from '@phosphor-icons/vue'
 import Editor from '@/components/Editor.vue'
-import urlSlug from '@/lib/urlSlug'
-import { watch } from 'vue'
 
 const { competition } = defineProps(['competition'])
 
 const form = useForm({
   title: competition.title,
-  slug: competition.slug,
+  voting_active: competition.voting_active,
   content: competition.content,
-  cover: null,
+  cover: competition.cover,
   //stage: competition.stage,
   past_winners_content: competition.past_winners_content,
   winner: competition.winner,
-  winner_pic: null,
+  winner_pic: competition.winner_pic,
   first_runner: competition.first_runner,
-  first_runner_pic: null,
+  first_runner_pic: competition.first_runner_pic,
   second_runner: competition.second_runner,
-  second_runner_pic: null,
+  second_runner_pic: competition.second_runner_pic,
   registration_closes: competition.registration_closes,
   first_voting_starts: competition.first_voting_starts,
   first_voting_ends: competition.first_voting_ends,
@@ -35,20 +34,35 @@ function handleFileChange(e, field) {
   form[field] = e.target.files[0]
 }
 
-watch(() => form.title, (newTitle) => {
-    form.slug = urlSlug(newTitle)
-})
-
 function submit() {
   form.post(route('competition.update', competition.id), {
     method: 'put',
     preserveScroll: true,
     forceFormData: true,
-    onSuccess: () => {
-        router.replace(route('competition.show', form.slug));
+    onSuccess: async () => {
+        await nextTick()
+        if (document.getElementById("flash")) document.getElementById("flash").scrollIntoView()
     },
   })
 }
+
+function deleteCompetition(id) {
+  if (confirm('Are you sure you want to delete this competition?')) {
+    router.delete(route('competition.destroy', id), {
+      //preserveScroll: true,
+      onSuccess: () => {
+        // Optional: show a success toast or redirect
+        alert('Deleted')
+      },
+    })
+  }
+}
+
+let competitionLink = ref('')
+
+onMounted(() => {
+    competitionLink.value = window.location.host + '/competitions/' + competition.slug
+})
 </script>
 
 <template>
@@ -56,29 +70,47 @@ function submit() {
 {{form}}
     <DashboardLayout>
         <div class="flex justify-end px-4 sm:px-6 py-2 border-b bdr">
-            <button class="flex items-center justify-center text-lg py-1 px-1.5 cursor-pointer rounded-full bg-neutral-200 mr-3">
-                <PhLink />
-            </button>
-            <Link :href="`/dashboard/${competition.slug}/paticipants`" class="text-blue-600 text-sm border border-blue-600 px-3 py-1 rounded-md hover:text-white hover:bg-blue-600">View Competition Participants.</Link>
+            <Link :href="`/dashboard/${competition.slug}/paticipants`" class="text-blue-600 text-sm border border-blue-600 px-3 py-1 rounded-md hover:text-white hover:bg-blue-600">View Competition Contestants.</Link>
         </div>
 
 
         <div class="relative px-4 sm:px-6 py-5 pb-8">
 
-            <p class="mb-5 note">
+        <div v-if="$page.props.flash.error" id="flash" class="bg-red-500 dashboard-alert">{{ $page.props.flash.error }}</div>
+
+        <div v-if="$page.props.flash.success" id="flash" class="bg-green-500 dashboard-alert">{{ $page.props.flash.success }}</div>
+
+            <p class="mb-4 note">
                 <span v-if="competition.stage === 'end'">This competition has ended</span>
-                <span v-else>This competition is in <strong>{{ competition.stage }} Stage.</strong> <a href="#second" class="text-blue-600">Set Second Stage.</a> <a href="#end" class="text-orange-600">End Competition.</a></span>
+                <span v-else>This competition is in <strong>{{ competition.stage }} Stage.</strong> <a href="#second" class="text-blue-600">Set Second Stage.</a> <a v-if="false" href="#end" class="text-orange-600">End Competition.</a></span>
             </p>
             
             <form @submit.prevent="submit">
+                <div class="flex justify-center items-center space-x-3 mb-4">
+                    <span class="text-black/80 text-base">Voting Satus:</span>
+                    <button @click.prevent class="">
+                        <PhToggleRight @click="form.voting_active = 0" v-if="form.voting_active === 1" weight="fill" class="text-blue-600" size="45" />
+                        <PhToggleLeft @click="form.voting_active = 1" v-else weight="fill" class="text-neutral-300" size="45" />
+                    </button>
+                </div>
+
                 <div class="mb-3">
                     <Label :required="true">Competition Title</Label>
                     <Input type="text" v-model="form.title" placeholder="Title of competition..."  />
                 </div>
 
                 <div class="mb-5">
-                    <Label :required="true">Competition Cover Picture</Label>
+                    <Label>Competition Cover Picture</Label>
+                    <img v-if="form.cover" :src="`/storage/${form.cover}`" class="w-16 mb-3">
                     <Input type="file" @change="e => handleFileChange(e, 'cover')" />
+                </div>
+
+                <div class="mb-3">
+                    <Label>
+                        Competition Link
+                        <template #description>Cant be modified. Select to copy.</template>
+                    </Label>
+                    <Input type="text" v-model="competitionLink" class="bg-neutral-100" />
                 </div>
 
                 <div class="dbox px-3 sm:px-4 py-4 mb-5">
@@ -121,19 +153,22 @@ function submit() {
                     <h1 class="text-neutral-600 text-lg font-semibold mb-3">Set Winners</h1>
                     <div class="mb-5">
                         <Label>Winner</Label>
-                        <Input type="text" v-model="form.winner" placeholder="Name" class="mb-1" />
+                        <Input type="text" v-model="form.winner" placeholder="Name" class="mb-3" />
+                        <img v-if="form.winner_pic" :src="`/storage/${form.winner_pic}`" class="w-16 mb-2">
                         <Input type="file" @change="e => handleFileChange(e, 'winner_pic')" placeholder="30" />
                     </div>
 
                     <div class="mb-5">
                         <Label>1st Runner Up</Label>
-                        <Input type="text" v-model="form.first_runner" placeholder="Name" class="mb-1" />
+                        <Input type="text" v-model="form.first_runner" placeholder="Name" class="mb-3" />
+                        <img v-if="form.first_runner_pic" :src="`/storage/${form.first_runner_pic}`" class="w-16 mb-2">
                         <Input type="file" @change="e => handleFileChange(e, 'first_runner_pic')" placeholder="30" />
                     </div>
 
                     <div>
                         <Label>2nd Runner Up</Label>
-                        <Input type="text" v-model="form.second_runner" placeholder="Name" class="mb-1" />
+                        <Input type="text" v-model="form.second_runner" placeholder="Name" class="mb-3" />
+                        <img v-if="form.second_runner_pic" :src="`/storage/${form.second_runner_pic}`" class="w-16 mb-2">
                         <Input type="file" @change="e => handleFileChange(e, 'second_runner_pic')" placeholder="30" />
                     </div>
                 </div>
@@ -151,7 +186,7 @@ function submit() {
                 
             </form>
 
-            <div id="second" class="dbox px-3 sm:px-4 py-4 mb-5">
+            <div id="second" class="dbox px-3 sm:px-4 py-4 mb-8">
                 <form>
                     <h1 class="text-neutral-600 text-xl font-semibold mb-3">Determine Second Stage</h1>
                     <div class="mb-3">
@@ -163,7 +198,9 @@ function submit() {
                 </form>
             </div>
 
-            <button id="end" class="btns btns-sm bg-orange-600 mt-8">! End This Competition</button>
+            <button id="end" v-if="false" class="btns btns-sm bg-orange-600 block mt-8 mb-8">! End This Competition</button>
+
+            <button @click="deleteCompetition(competition.id)" class="text-red-500 block mb-6">Delete this Competition</button>
 
         </div>
     </DashboardLayout>

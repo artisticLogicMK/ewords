@@ -21,12 +21,16 @@ Route::get('/competitions/{slug}', function () {
 
 
 // dashboard
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('competitions');
+Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('competitions');
 Route::get('/dashboard/new', [DashboardController::class, 'create'])->middleware(['auth'])->name('competition.create');
+Route::get('/dashboard/password', function () {
+    return Inertia::render('dashboard/Password');
+})->name('password');
 Route::post('/dashboard/store', [DashboardController::class, 'store'])->middleware(['auth'])->name('competition.store');
 Route::get('/dashboard/{slug}', [DashboardController::class, 'show'])->middleware(['auth'])->name('competition.show');
 Route::post('/dashboard/update/{competition}', [DashboardController::class, 'update'])
     ->name('competition.update');
+Route::delete('/dashboard/{competition}', [DashboardController::class, 'destroy'])->name('competition.destroy');
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

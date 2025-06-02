@@ -16,9 +16,9 @@ const bgImage = props.image ? props.image : '/assets/mesh.png'
         <Header />
 
         <div class="w-fit mx-auto pt-3 pb-13 text-center px-4 sm:px-6">
-            <h1 class="text-white text-4xl barlow-condensed-bold">{{ title }}</h1>
+            <h1 class="text-white text-3xl md:text-4xl barlow-condensed-bold">{{ title }}</h1>
 
-            <div v-if="breadcumb && breadcumb.length" class="text-white text-base inline-flex items-center mt-5">
+            <div v-if="breadcumb && breadcumb.length" class="text-white text-sm sm:text-base inline-flex flex-wrap items-center justify-center space-y-1 mt-5">
                 <template v-for="(link, i) in breadcumb" :key="link.name">
                     <Link
                         :href="link.url"

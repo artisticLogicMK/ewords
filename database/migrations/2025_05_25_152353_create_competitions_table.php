@@ -10,7 +10,8 @@ return new class extends Migration {
         Schema::create('competitions', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('cover')->default('/assets/trophy.png');
+            $table->string('cover')->nullable();
+            $table->integer('voting_active')->default(0);
             $table->string('slug')->unique();
             $table->longText('content')->nullable(); // 100,000 characters
             $table->string('stage')->default('1st');

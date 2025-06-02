@@ -5,6 +5,7 @@ import initScrollAnimations from '@/lib/scrollAnimations'
 import AppLayout from '@/layouts/AppLayout.vue'
 import PagesHeader from '@/components/PagesHeader.vue'
 import ContestantsCard from '@/components/ContestantsCard.vue'
+import { PhInfo } from '@phosphor-icons/vue'
 
 const breadcumb = [
     { name: "Home", url: "/" },
@@ -12,7 +13,7 @@ const breadcumb = [
     { name: "18th Spoken Words Contest", url: "/competitions" }
 ]
 
-contestants = [
+const contestants = [
   { name: "Okafor Augustina Chigozie", pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2ry4hDUEb2vxQAGRDTRor5jdAkvlIg28V8NRDx-MhXYqAiOkiXh9kynwp&s=10", votes: 27 },
   { name: "Christabel Bassey", pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScdAHPWjx0V3E3J4ZYdc13QHxJ8T8vww6plPK2LC4xEdvr0fODS1jlWK8&s=10", votes: 11 },
   { name: "Okafor Augustina Chigozie", pic: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqKU7bcz1k1Ks7A6oF2I63_OYkOc11hXlP9g&usqp=CAU", votes: 6 },
@@ -38,15 +39,15 @@ onMounted(() => {
           
           <div class="flex justify-center mb-3">
             <div class="w-fit h-fit grad rounded-md overflow-hidden">
-              <img src="/assets/trophy.png" class="w-48" alt="" />
+              <img src="/assets/trophy.png" class="w-48 sm:w-54 scale-in" alt="" />
             </div>
           </div>
 
 
-          <h1 class="text-4xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-3 text-center slide-up">18th Spoken Words Contest</h1>
+          <h1 class="text-2xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-5 text-center">18th Spoken Words Contest</h1>
   
   
-          <div class="w-full mb-3 torch-doc border-b bdr pb-3">
+          <div class="w-full mb-3 torch-doc border-b bdr pb-5">
               Spoken Word Contest is a Talent competition organised by Sageatwords.com.<br><br>
 - Registration ended at exactly 09:00pm on the May 9th 2025.<br>
 - Voting started at exactly 12:00am on the May 10th 2025.<br>
@@ -60,7 +61,7 @@ onMounted(() => {
 - The 2nd Stage is the Final Stage.<br>
 - The 2nd Stage ends at 11:59 pm, May 23rd 2025.<br>
 - The Top 3 Contestants win the prize.<br><br>
-<strong>Prizes</strong>
+<strong>Prizes</strong><br>
 - 1st Prize: N500,000 + Golden-Luxe Award Plaque + 2 Years Long Supply of Premium Ballpoint Pens.<br>
 - 2nd Prize: N150,000<br>
 - 3rd Prize: N50,000<br>
@@ -74,13 +75,15 @@ This competition is sponsored by TheNextStar, TheMostCreative, and SageAtWords.
               <Link class="btns-sm btn-grad">Refresh</Link>
             </div>
             
-            <p class="bg-sky-100 border border-sky-200 rounded-lg p-3 text-sm">As of today, Friday, 30 May 2025, 03:09pm, the contestants listed below are the Top Contestants (by votes). Voting is still on. Keep voting to increase the position of your favorite contestants. The Top 3 Contestants wins the prize.</p>
+            <p class="bg-sky-100 border border-sky-200 text-black/90 rounded-lg p-3 text-sm mb-5">
+              <PhInfo weight="fill" class="text-lg inline-block" /> As of today, Friday, 30 May 2025, 03:09pm, the contestants listed below are the Top Contestants (by votes). Voting is still on. Keep voting to increase the position of your favorite contestants. The Top 3 Contestants wins the prize.
+            </p>
             
-            <div class="mb-3">
+            <div class="mb-5">
               <ContestantsCard v-for="c in contestants" :key="c.name" :contestant="c" />
             </div>
             
-            <div class="w-full flex justify-center slide-up">
+            <div class="w-full flex justify-center">
                 <Link class="btns btn-grad bg-blue-500 slide-up">View All Contestants</Link>
             </div>
             

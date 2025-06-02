@@ -8,14 +8,14 @@ import { Head, Link } from '@inertiajs/vue3';
             <h1 class="text-xl font-medium text-[var(--echo-dark-400)] barlow-condensed-bold px-4 px-6">EchoWords Control Panel</h1>
         </div>
 
-        <div class="dtop text-center text-neutral-500 py-2 border-b border-neutral-200 text-sm px-4 px-6 py-3 space-x-3">
+        <div class="dtop text-center text-neutral-500 py-2 border-b border-neutral-200 text-sm px-4 px-6 py-3 space-x-3 space-y-2">
             <Link href="/dashboard" :class="{'active': $page.url === '/dashboard'}">Competitions</Link>
                 <span>-</span>
             <Link href="/dashboard/new" :class="{'active': $page.url === '/dashboard/new'}">New Competition</Link>
                 <span>-</span>
             <Link href="/dashboard/password" :class="{'active': $page.url === '/dashboard/password'}">Change Password</Link>
                 <span>-</span>
-            <Link href="/dashboard" class="">Log Out</Link>
+            <Link href="/logout" method="post" class="">Log Out</Link>
         </div>
 
         <slot />
@@ -54,5 +54,9 @@ import { Head, Link } from '@inertiajs/vue3';
 
 .note {
     @apply text-neutral-500 text-sm border-l-2 border-blue-500 px-3 py-1
+}
+
+.dashboard-alert {
+    @apply text-white text-base rounded-md mb-5 px-3 py-2
 }
 </style>
