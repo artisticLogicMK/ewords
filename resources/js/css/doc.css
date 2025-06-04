@@ -4,7 +4,7 @@
 .torch-doc, .ql-editor {
   line-height: 1.6;
   font-family: "Poppins", serif;
-  @apply text-sm text-neutral-800
+  @apply text-sm sm:text-base text-neutral-800
 }
 
 .torch-doc.ql-editor {

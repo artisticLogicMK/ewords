@@ -92,7 +92,7 @@ import EmojiSupport from '@/components/EmojiSupport.vue'
     @apply mb-6
 }
 .why-cards .lists h1 {
-    @apply text-[var(--echo-dark-400)] text-2xl mb-2
+    @apply text-[var(--echo-dark-400)] text-xl sm:text-2xl mb-2
 }
 .why-cards .lists p {
     @apply text-black/75 text-sm text-base

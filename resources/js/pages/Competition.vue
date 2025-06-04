@@ -39,12 +39,12 @@ onMounted(() => {
           
           <div class="flex justify-center mb-3">
             <div class="w-fit h-fit grad rounded-md overflow-hidden">
-              <img src="/assets/trophy.png" class="w-48 sm:w-54 scale-in" alt="" />
+              <img src="/assets/trophy.png" class="w-45 sm:w-50 scale-in" alt="" />
             </div>
           </div>
 
 
-          <h1 class="text-2xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-5 text-center">18th Spoken Words Contest</h1>
+          <h1 class="text-2xl sm:text-3xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-5 text-center">18th Spoken Words Contest</h1>
   
   
           <div class="w-full mb-3 torch-doc border-b bdr pb-5">
@@ -79,7 +79,7 @@ This competition is sponsored by TheNextStar, TheMostCreative, and SageAtWords.
               <PhInfo weight="fill" class="text-lg inline-block" /> As of today, Friday, 30 May 2025, 03:09pm, the contestants listed below are the Top Contestants (by votes). Voting is still on. Keep voting to increase the position of your favorite contestants. The Top 3 Contestants wins the prize.
             </p>
             
-            <div class="mb-5">
+            <div class="sm:grid grid-cols-2 gap-4 mb-5">
               <ContestantsCard v-for="c in contestants" :key="c.name" :contestant="c" />
             </div>
             

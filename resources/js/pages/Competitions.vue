@@ -11,33 +11,7 @@ const breadcumb = [
     { name: "Competitions", url: "/competitions" }
 ]
 
-const competitions = [
-    {
-        title: "18th Edition - Spoken Word Contest",
-        description: "Stand a chance to win the sum of 500,000",
-        current: true
-    },
-    {
-        title: "17th Edition - Spoken Word Contest [Completed]",
-        description: "Stand a chance to win the sum of 500,000",
-        current: false
-    },
-    {
-        title: "16th Edition - Spoken Word Contest [Completed]",
-        description: "Stand a chance to win the sum of 500,000",
-        current: false
-    },
-    {
-        title: "15th Edition - Spoken Word Contest [Completed]",
-        description: "Stand a chance to win the sum of 500,000",
-        current: false
-    },
-    {
-        title: "14th Edition - Spoken Word Contest [Completed]",
-        description: "Stand a chance to win the sum of 500,000",
-        current: false
-    },
-]
+const { competitions } = defineProps(['competitions'])
 
 onMounted(() => {
     initScrollAnimations()
@@ -52,29 +26,35 @@ onMounted(() => {
         <PagesHeader
             title="Competitions"
             :breadcumb="breadcumb"
-            class="mb-25 scale-in"
-            :image="'/assets/mesh.png'"
+            class="mb-25"
         />
 
         <main class="w-full max-w-2xl mx-auto mb-30 px-4 sm:px-6">
 
             <h1 class="text-4xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-3 text-center slide-up">Competitions</h1>
 
-            <div class="w-fit mx-auto mb-3">
-                <CompetitionCard v-for="comp in competitions" :key="comp.title" :competition="comp" />
+            <div v-if="competitions.data.length" class="w-fit mx-auto mb-3">
+                <CompetitionCard
+                    v-for="(comp, i) in competitions.data"
+                    :key="comp.slug"
+                    :competition="{ ...comp, current: i === 0 }"
+                />
             </div>
 
-            <div class="pagination mb-3 slide-up">
-                <p>Viewing 10 of 26</p>
+            <div v-else class="text-center text-neutral-300 text-2xl font-bold mt-8">
+                🏆 No Competitions yet...
+            </div>
 
+            <div class="pagination mb-4 slide-up">
+                <p>Page {{ competitions.current_page }} of {{ competitions.last_page }}</p>
                 <div class="page-links">
-                    <Link>Prev</Link>
-                    <Link>Next</Link>
+                    <Link :href="competitions.prev_page_url" :class="{'pointer-events-none opacity-50': !competitions.prev_page_url}">Prev</Link>
+                    <Link :href="competitions.next_page_url" :class="{'pointer-events-none opacity-50': !competitions.next_page_url}">Next</Link>
                 </div>
             </div>
 
             <div class="w-full flex justify-center slide-up">
-                <a class="btns btn-grad bg-blue-500 slide-up">View Past Winners</a>
+                <Link href="/past-winners" class="btns btn-grad bg-blue-500 slide-up">View Past Winners</Link>
             </div>
 
         </main>

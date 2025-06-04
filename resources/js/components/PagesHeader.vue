@@ -11,7 +11,7 @@ const bgImage = props.image ? props.image : '/assets/mesh.png'
 </script>
 
 <template>
-    <header class="bg-sky-800 elliptical-background jbg-[url('/assets/mesh.png')] bg-cover bg-center" :style="`background-image: url(${bgImage})`">
+    <header class="bg-sky-800 elliptical-background bg-cover bg-center" :style="`background-image: url(${bgImage})`">
 
         <Header />
 

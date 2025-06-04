@@ -7,6 +7,23 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+  --breakpoint-*: initial;
+
+  --breakpoint-mic: 17.5625rem;   /* 281px */
+  --breakpoint-mic2: 20.625rem;   /* 330px */
+  --breakpoint-xs: 25rem;         /* 400px */
+  --breakpoint-xsm: 33.75rem;     /* 540px */
+  --breakpoint-xsm2: 36.25rem;    /* 580px */
+  --breakpoint-sm: 40rem;         /* 640px */
+  --breakpoint-md: 48rem;         /* 768px */
+  --breakpoint-md2: 53.125rem;    /* 850px */
+  --breakpoint-md3: 56rem;        /* 896px */
+  --breakpoint-lg: 64rem;         /* 1024px */
+  --breakpoint-xl: 80rem;         /* 1280px */
+  --breakpoint-2xl: 96rem;        /* 1536px */
+}
+
 body, html {
     height: 100%;
     width: 100%;
@@ -30,19 +47,19 @@ button {
   cursor: pointer;
 }
 
-.barlow-condensed-regular {
+.barlow-condensed-regular, .blw-regular {
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 400;
   font-style: normal;
 }
 
-.barlow-condensed-semibold {
+.barlow-condensed-semibold, .blw-semibold {
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 600;
   font-style: normal;
 }
 
-.barlow-condensed-bold {
+.barlow-condensed-bold, .blw-bold {
   font-family: "Barlow Condensed", sans-serif;
   font-weight: 700;
   font-style: normal;

@@ -70,6 +70,16 @@ export default function initScrollAnimations() {
         })
     })
 
+    gsap.utils.toArray('.heroup').forEach((el) => {
+        gsap.to(el, {
+            scrollTrigger: {
+                trigger: el, start: el.dataset.start || 'top 0%',
+                toggleActions: 'play none none none', scrub: true
+            },
+            y: '-100%', ease: "power2.out"
+        })
+    })
+
     ScrollTrigger.refresh();
 
 }

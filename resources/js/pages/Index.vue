@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, provide } from 'vue'
 import initScrollAnimations from '@/lib/scrollAnimations'
 import { Head } from '@inertiajs/vue3'
 
@@ -8,6 +8,11 @@ import Hero from '@/components/home/Hero.vue'
 import About from '@/components/home/About.vue'
 import WhyJoin from '@/components/home/WhyJoin.vue'
 import Competitions from '@/components/home/Competitions.vue'
+
+const { competitions } = defineProps(['competitions'])
+
+// Pass first competition to all child components
+provide('competition', competitions[0])
 
 onMounted(() => {
     initScrollAnimations()
@@ -27,7 +32,7 @@ onMounted(() => {
 
             <WhyJoin class="mb-35" />
 
-            <Competitions class="mb-35" />
+            <Competitions :competitions="competitions" class="mb-35" />
 
         </main>
 

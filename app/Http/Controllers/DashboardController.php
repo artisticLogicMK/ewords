@@ -25,6 +25,7 @@ class DashboardController extends Controller
         return Inertia::render('dashboard/New');
     }
 
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -37,6 +38,7 @@ class DashboardController extends Controller
         return redirect()->route('competition.show', $competition->slug);
     }
 
+    
     public function show($slug)
     {
         $competition = Competition::where('slug', $slug)->firstOrFail();
@@ -52,6 +54,7 @@ class DashboardController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'voting_active' => 'required',
+            'registration_active' => 'required',
             'cover' => $request->hasFile('cover') ? 'image|max:2048' : 'nullable', // validate image file if uploaded
             'content' => 'nullable|string|max:100000',
             'past_winners_content' => 'nullable|string|max:100000',
@@ -76,7 +79,19 @@ class DashboardController extends Controller
 
             if ($otherActiveExists) {
                 return redirect()->back()
-                    ->with('error', 'You must deactivate all other competitions voting status to activate this one. Only 1 competition voting can be active!');
+                    ->with('error', 'Only one competition can have voting active at a time. Please deactivate all others before activating this one.');
+            }
+        }
+
+        // 🔒 Prevent multiple open registrations
+        if ($data['registration_active'] == 1) {
+            $otherActiveExists = Competition::where('registration_active', 1)
+                ->where('id', '!=', $competition->id)
+                ->exists();
+
+            if ($otherActiveExists) {
+                return redirect()->back()
+                    ->with('error', 'Only one competition can be open for registration at a time. Please close the existing one before opening a new one.');
             }
         }
 

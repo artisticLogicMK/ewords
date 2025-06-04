@@ -2,25 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\SiteController;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Index');
-})->name('home');
-
-Route::get('/competitions', function () {
-    return Inertia::render('Competitions');
-})->name('competitions');
-
-Route::get('/competitions/{slug}', function () {
-    return Inertia::render('Competition');
-})->name('competition');
-
-//Route::get('/competitions/{competition}', [CompetitionController::class, 'index'])->middleware(['auth'])->name('competitions');
+// Site
+Route::get('/', [SiteController::class, 'home'])->name('home');
+Route::get('/competitions', [SiteController::class, 'competitions'])->name('site.competitions');
+Route::get('/latest', [SiteController::class, 'latest'])->name('site.latest');
+Route::get('/competitions/{slug}', [SiteController::class, 'competition'])->name('site.competition');
 
 
-
-// dashboard
+// Dashboard
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('competitions');
 Route::get('/dashboard/new', [DashboardController::class, 'create'])->middleware(['auth'])->name('competition.create');
 Route::get('/dashboard/password', function () {
