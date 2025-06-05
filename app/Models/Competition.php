@@ -14,4 +14,9 @@ class Competition extends Model
     {
         return 'slug';
     }
+
+    public function contestants()
+    {
+        return $this->hasMany(Contestant::class);
+    }
 }

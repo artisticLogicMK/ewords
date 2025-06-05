@@ -15,7 +15,7 @@ export default function initScrollAnimations() {
             opacity: 0, scale: 0.2, ease: "back.out(1.7)"
         })
     })
-
+    
 
     gsap.utils.toArray('.rotate-in').forEach((el) => {
         gsap.from(el, {

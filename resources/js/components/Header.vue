@@ -23,15 +23,17 @@ watch(() => showNav.value, (newVal) => {
     }
 })
 
+const isItActive = link => page.url === link.url || page.url.toLowerCase().includes(link.name.toLowerCase())
+
 onBeforeUnmount(() => document.body.style.overflow = 'auto')
 </script>
 
 <template>
-    <nav class="flex w-full max-w-6xl mx-auto items-center justify-between px-4 py-6">
+    <nav class="flex w-full max-w-6xl mx-auto items-center justify-between px-5 py-6">
         <img src="/assets/ew-logo.png" class="w-28" alt="EchoWords Logo">
 
         <div class="hidden md:block links">
-            <Link v-for="link in headlinks" :key="link.url" :href="link.url">
+            <Link v-for="link in headlinks" :key="link.url" :href="link.url" :class="{'active-navlink': isItActive(link)}">
                 {{ link.name }}
             </Link>
         </div>
@@ -52,7 +54,7 @@ onBeforeUnmount(() => document.body.style.overflow = 'auto')
                         v-for="link in headlinks"
                         :key="link.url" :href="link.url"
                         class="barlow-condensed-regular"
-                        :class="{'active-navlink': page.url === link.url}"
+                        :class="{'active-navlink': isItActive(link)}"
                     >
                         {{ link.name }}
                     </Link>
@@ -74,7 +76,7 @@ onBeforeUnmount(() => document.body.style.overflow = 'auto')
     @apply block text-2xl text-white mb-5 hover:underline underline-offset-4
 }
 
-.navmodal a.active-navlink {
+.navmodal a.active-navlink, .links a.active-navlink {
     @apply text-blue-400 font-bold
 }
 </style>

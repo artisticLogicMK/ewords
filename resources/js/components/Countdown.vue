@@ -15,27 +15,37 @@ let timer = null
 
 // Function to update the countdown every second
 function updateCountdown() {
-  // Get the current time in Africa/Lagos timezone
   const now = moment.tz('Africa/Lagos')
-
-  // Calculate the time difference from now to the target date
   const duration = moment.duration(targetDate.diff(now))
 
   // If the countdown has ended or passed, show all zeros and stop the timer
   if (duration.asSeconds() <= 0) {
-    countdown.value = '00 Days : 00 Hours : 00 Minutes : 00 Seconds'
+    countdown.value = '0 Minutes : 00 Seconds'
     clearInterval(timer)
     return
   }
 
   // Calculate remaining days, hours, minutes, and seconds
-  const days = String(Math.floor(duration.asDays())).padStart(2, '0')
-  const hours = String(duration.hours()).padStart(2, '0')
-  const minutes = String(duration.minutes()).padStart(2, '0')
-  const seconds = String(duration.seconds()).padStart(2, '0')
+  const days = Math.floor(duration.asDays())
+  const hours = duration.hours()
+  const minutes = duration.minutes()
+  const seconds = duration.seconds()
 
-  // Set the formatted countdown string
-  countdown.value = `${days} Days : ${hours} Hours : ${minutes} Minutes : ${seconds} Seconds`
+  // Build the countdown string dynamically based on the values
+  let formattedCountdown = ''
+
+  if (days > 0) {
+    formattedCountdown += `${String(days).padStart(2, '0')} Days : `
+  }
+
+  if (hours > 0 || days > 0) {  // Only show hours if there are days or if hours is non-zero
+    formattedCountdown += `${String(hours).padStart(2, '0')} Hours : `
+  }
+
+  formattedCountdown += `${String(minutes).padStart(2, '0')} Minutes : `
+  formattedCountdown += `${String(seconds).padStart(2, '0')} Seconds`
+
+  countdown.value = formattedCountdown
 }
 
 // Start the countdown when the component is mounted

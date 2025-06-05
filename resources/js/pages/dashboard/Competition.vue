@@ -5,12 +5,14 @@ import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { PhFloppyDisk, PhLink, PhToggleRight, PhToggleLeft } from '@phosphor-icons/vue'
+import InputError from '@/components/InputError.vue';
 import Editor from '@/components/Editor.vue'
 
 const { competition } = defineProps(['competition'])
 
 const form = useForm({
   title: competition.title,
+  active: competition.active,
   voting_active: competition.voting_active,
   registration_active: competition.registration_active,
   set_winners: 0,
@@ -61,6 +63,12 @@ function deleteCompetition(slug) {
   }
 }
 
+const toggles = [
+    { name:'Registration Active', key:'registration_active'},
+    { name:'Voting Active', key:'voting_active'},
+    { name:'Show Competition is Ongoing', key:'active'},
+]
+
 let competitionLink = ref('')
 
 onMounted(() => {
@@ -70,7 +78,7 @@ onMounted(() => {
 
 <template>
     <Head :title="`${competition.title}:Dashboard`" />
-{{form}}
+
     <DashboardLayout>
         <div class="flex justify-end px-4 sm:px-6 py-2 border-b bdr">
             <Link :href="`/competitions/${competition.slug}/contestants`" class="text-blue-600 text-sm border border-blue-600 px-3 py-1 rounded-md hover:text-white hover:bg-blue-600">View Competition Contestants.</Link>
@@ -79,18 +87,19 @@ onMounted(() => {
 
         <div class="relative px-4 sm:px-6 py-5 pb-8">
 
-        <div v-if="$page.props.flash.error" id="flash" class="bg-red-500 dashboard-alert">{{ $page.props.flash.error }}</div>
+            <div v-if="$page.props.flash.error" id="flash" class="alerts error-alert mb-5">{{ $page.props.flash.error }}</div>
 
-        <div v-if="$page.props.flash.success" id="flash" class="bg-green-500 dashboard-alert">{{ $page.props.flash.success }}</div>
+            <div v-if="$page.props.flash.success" id="flash" class="alerts success-alert mb-5">{{ $page.props.flash.success }}</div>
 
             <p class="mb-4 note">
                 <span v-if="competition.stage === 'end'">This competition has ended</span>
                 <span v-else>This competition is in <strong>{{ competition.stage }} Stage.</strong> <a href="#second" class="text-blue-600">Set Second Stage.</a> <a v-if="false" href="#end" class="text-orange-600">End Competition.</a></span>
             </p>
             
+            
             <form @submit.prevent="submit">
                 <div
-                    v-for="{ name, key } in [{ name:'Registration Active', key:'registration_active'}, { name:'Voting Active', key:'voting_active'}]" :key="key" 
+                    v-for="{ name, key } in toggles" :key="key" 
                     class="flex justify-center items-center space-x-3 mb-2 last:mb-8"
                 >
                     <span class="text-black/80 text-base">{{ name }}:</span>
@@ -103,10 +112,11 @@ onMounted(() => {
                 <div class="mb-5">
                     <Label :required="true">Competition Title</Label>
                     <Input type="text" v-model="form.title" placeholder="Title of competition..."  />
+                    <InputError :message="form.errors.title" />
                 </div>
 
                 <div class="mb-5">
-                    <Label>Competition Cover Picture</Label>
+                    <Label>Competition Cover Picture <template #description>Use a square size image</template></Label>
                     <img v-if="form.cover && typeof form.cover === 'string'" :src="`/storage/${form.cover}`" class="w-16 mb-3">
                     <Input type="file" @change="e => handleFileChange(e, 'cover')" />
                 </div>
@@ -120,8 +130,9 @@ onMounted(() => {
                 </div>
 
                 <div class="mb-5">
-                    <Label>Competition Description</Label>
+                    <Label :required="true">Competition Description</Label>
                     <textarea v-model="form.description" class="input" rows="2" style="height:auto"></textarea>
+                    <InputError :message="form.errors.description" />
                 </div>
 
                 <div class="dbox px-3 sm:px-4 py-4 mb-5">

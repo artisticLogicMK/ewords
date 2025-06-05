@@ -5,7 +5,7 @@ import { Head, Link } from '@inertiajs/vue3';
 <template>
     <div class="w-full max-w-4xl mx-auto min-h-screen border border-neutral-200 border-t-transparent border-b-transparent">
         <div class="text-center py-3 border-b border-neutral-200">
-            <h1 class="text-xl font-medium text-[var(--echo-dark-400)] barlow-condensed-bold px-4 px-6">EchoWords Control Panel</h1>
+            <h1 class="text-xl font-medium text-[var(--echo-dark-400)] barlow-condensed-bold px-4 px-6">{{ $page.props.name }} Control Panel</h1>
         </div>
 
         <div class="dtop text-center text-neutral-500 py-2 border-b border-neutral-200 text-sm px-4 px-6 py-3 space-x-3 space-y-2">

@@ -19,7 +19,14 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Competitions" />
+    <Head title="Competitions">
+      <!-- Open Graph -->
+      <meta property="og:image" content="/assets/default_cover.png" />
+
+      <!-- Twitter Card -->
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:image" content="/assets/default_cover.png" />
+    </Head>
 
     <AppLayout>
 

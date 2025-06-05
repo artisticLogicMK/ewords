@@ -53,9 +53,11 @@ class DashboardController extends Controller
     {
         $data = $request->validate([
             'title' => 'required|string|max:255',
+            'active' => 'required',
             'voting_active' => 'required',
             'registration_active' => 'required',
             'cover' => $request->hasFile('cover') ? 'image|max:2048' : 'nullable', // validate image file if uploaded
+            'description' => 'required|string|max:255',
             'content' => 'nullable|string|max:100000',
             'past_winners_content' => 'nullable|string|max:100000',
             'winner' => 'nullable|string|max:255',
@@ -70,6 +72,18 @@ class DashboardController extends Controller
             'second_voting_starts' => 'nullable|date',
             'second_voting_ends' => 'nullable|date',
         ]);
+
+        // 🔒 Prevent multiple active competitions
+        if ($data['active'] == 1) {
+            $otherActiveExists = Competition::where('active', 1)
+                ->where('id', '!=', $competition->id)
+                ->exists();
+
+            if ($otherActiveExists) {
+                return redirect()->back()
+                    ->with('error', 'Only one competition can be ongoing at a time. Please stop all others before opening this one.');
+            }
+        }
 
         // 🔒 Prevent multiple active voting competitions
         if ($data['voting_active'] == 1) {
@@ -109,13 +123,21 @@ class DashboardController extends Controller
 
                 $uploadedFile = $request->file($field);
 
-                // Read image and encode as JPEG (75% quality)
-                $image = $manager->read($uploadedFile->getRealPath())->toJpeg(75);
+                // Read the image using Intervention Image
+                $image = $manager->read($uploadedFile->getRealPath());
+
+                // Check if width exceeds 1200px, and resize if needed
+                if ($image->width() > 1200) {
+                    // This automatically scales down if wider than 1200px and keeps aspect ratio
+                    $image->scaleDown(width: 1200);
+                }
+
+                $jpegData = $image->toJpeg(75)->toString();
 
                 $filename = "{$field}_" . Str::random(10) . '.jpg';
                 $path = "{$folder}/{$filename}";
 
-                Storage::disk('public')->put($path, (string) $image);
+                Storage::disk('public')->put($path, (string) $jpegData);
 
                 // Save image path to data array
                 $data[$field] = $path;

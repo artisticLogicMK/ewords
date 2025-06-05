@@ -29,12 +29,12 @@ const competition = inject('competition')
 
                     <div class="flex flex-wrap items-center">
                         <Link
-                            :href="competition ? `/competitions/${competition.slug}/contest` : '#'"
+                            :href="competition ? `/competitions/${competition.slug}/join` : '#'"
                             class="herojoin btns text-white border-2 border-white bg-transparent shrink-0 mr-3 mb-3"
                         >Join Competition</Link>
         
-                        <span class="mb-3 text-white">
-                            <Countdowns v-if="competition" :competition="competition" />
+                        <span class="mb-3 text-white text-base">
+                            <Countdowns v-if="competition" :competition="competition" :opaTitle="true" />
                         </span>
                     </div>
                 </div>

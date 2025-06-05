@@ -10,7 +10,7 @@ const { competitions } = defineProps(['competitions'])
 
         <div class="flex items-center justify-between mb-5 slide-up">
             <h1 class="text-2xl sm:text-4xl text-[var(--echo-dark-400)] barlow-condensed-bold">Competitions</h1>
-            <Link :href="`/competitions/${competitions[0].slug}/contest`"  class="btns btn-grad bg-blue-500">Contest</Link>
+            <Link :href="`/competitions/${competitions[0].slug}/join`"  class="btns btn-grad bg-blue-500">Join</Link>
         </div>
 
         <div class="w-full max-w-fit mx-auto mb-4">

@@ -10,6 +10,10 @@ Route::get('/', [SiteController::class, 'home'])->name('home');
 Route::get('/competitions', [SiteController::class, 'competitions'])->name('site.competitions');
 Route::get('/latest', [SiteController::class, 'latest'])->name('site.latest');
 Route::get('/competitions/{slug}', [SiteController::class, 'competition'])->name('site.competition');
+Route::get('/competitions/{slug}/join', [SiteController::class, 'join'])->name('site.join');
+Route::get('/competitions/{slug}/contestants', [SiteController::class, 'contestants'])->name('site.contestants');
+Route::post('/competitions/{slug}/storeContestant', [SiteController::class, 'storeContestant'])->name('site.storeContestant');
+Route::get('/competitions/{slug}/contestants/{contestant}', [SiteController::class, 'contestant'])->name('site.contestant');
 
 
 // Dashboard

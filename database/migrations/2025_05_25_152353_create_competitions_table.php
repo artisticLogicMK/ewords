@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->string('title');
             $table->string('cover')->nullable();
             $table->string('description')->default("Stand a chance to win the sum of 500,000.");
+            $table->integer('active')->default(0);
             $table->integer('voting_active')->default(0);
             $table->integer('registration_active')->default(0);
             $table->integer('set_winners')->default(0);

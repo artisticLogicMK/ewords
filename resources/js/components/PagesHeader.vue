@@ -7,12 +7,20 @@ const page = usePage()
 
 const props = defineProps(['title', 'breadcumb', 'extra', 'image'])
 
-const bgImage = props.image ? props.image : '/assets/mesh.png'
+const bgImage = props.image ? `/storage/${props.image}` : '/assets/mesh.png'
+
+const isItActive = link => page.url.split('?')[0] === link.url
 </script>
 
 <template>
-    <header class="bg-sky-800 elliptical-background bg-cover bg-center" :style="`background-image: url(${bgImage})`">
+    <header class="relative w-full overflow-hidden">
 
+      <div class="absolute top-0 left-0 w-full h-full bg-sky-800 elliptical-background bg-cover bg-center" :style="`background-image: url(${bgImage})`">
+        <div v-if="props.image" class="absolute top-0 left-0 w-full h-full bg-black/60"></div>
+      </div>
+     
+
+      <div class="relative">
         <Header />
 
         <div class="w-fit mx-auto pt-3 pb-13 text-center px-4 sm:px-6">
@@ -22,8 +30,7 @@ const bgImage = props.image ? props.image : '/assets/mesh.png'
                 <template v-for="(link, i) in breadcumb" :key="link.name">
                     <Link
                         :href="link.url"
-                        class="flex"
-                        :class="{'text-blue-400': page.url === link.url}"
+                        :class="{'text-blue-400': isItActive(link)}"
                     >
                         {{ link.name }}
                     </Link>
@@ -35,35 +42,36 @@ const bgImage = props.image ? props.image : '/assets/mesh.png'
                 {{ extra }}
             </div>
         </div>
+     </div>
 
     </header>
 </template>
 
 <style>
 .elliptical-background {
-  animation: backgroundMotion 20s linear infinite;
+  animation: backgroundMotion 50s linear infinite;
 }
 
 @keyframes backgroundMotion {
   0% {
     background-position: 50% 30%;
-    background-size: 150% 150%;
+    transform: scale(1.02)
   }
   25% {
     background-position: 70% 50%;
-    background-size: 200% 140%;
+    transform: scale(1.2)
   }
   50% {
     background-position: 50% 70%;
-    background-size: 120% 220%;
+    transform: scale(1.0)
   }
   75% {
     background-position: 30% 20%;
-    background-size: 170% 180%;
+    transform: scale(1.05)
   }
   100% {
     background-position: 50% 30%;
-    background-size: 150% 150%;
+    transform: scale(1.03)
   }
 }
 </style>

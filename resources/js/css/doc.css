@@ -13,7 +13,7 @@
   min-height: auto;
 }
 .torch-doc p, .ql-editor p {
-  @apply mb-3;
+  
 }
 
 .torch-doc img.emoji, .ql-editor img.emoji {

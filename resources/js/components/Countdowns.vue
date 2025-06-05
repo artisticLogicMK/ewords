@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import moment from 'moment-timezone'
 import Countdown from '@/components/Countdown.vue'
 
-const { competition } = defineProps(['competition'])
+const { competition, opaTitle } = defineProps(['competition', 'opa-title'])
 
 // Reactive current time
 const now = ref(moment.tz('Africa/Lagos'))
@@ -43,25 +43,18 @@ const isFuture_second_voting_ends = computed(() =>
 
 
 <template>
-    <p v-if="isFuture_reg_closes" class="ctexts blw-semibold" v-bind="$attrs">
-        <span class="opacity-84">Closes In:</span>&nbsp; <Countdown :time="competition.registration_closes" /></p>
+    <p v-if="isFuture_reg_closes && competition.registration_active" class="blw-semibold" v-bind="$attrs">
+        <span :class="{'opacity-84': opaTitle}">Closes In:</span>&nbsp; <Countdown :time="competition.registration_closes" /></p>
 
-    <p v-if="isFuture_first_voting_starts" class="ctexts blw-semibold" v-bind="$attrs">
-        <span class="opacity-84">1st Stage Voting Starts In:</span>&nbsp; <Countdown :time="competition.first_voting_starts" /></p>
+    <p v-if="isFuture_first_voting_starts" class="blw-semibold" v-bind="$attrs">
+        <span :class="{'opacity-84': opaTitle}">1st Stage Voting Starts In:</span>&nbsp; <Countdown :time="competition.first_voting_starts" /></p>
 
-    <p v-if="isFuture_first_voting_ends" class="ctexts blw-semibold" v-bind="$attrs">
-        <span class="opacity-84">1st Stage Voting Ends In:</span>&nbsp; <Countdown :time="competition.first_voting_ends" /></p>
+    <p v-if="isFuture_first_voting_ends" class="blw-semibold" v-bind="$attrs">
+        <span :class="{'opacity-84': opaTitle}">1st Stage Voting Ends In:</span>&nbsp; <Countdown :time="competition.first_voting_ends" /></p>
 
-    <p v-if="isFuture_second_voting_starts" class="ctexts blw-semibold" v-bind="$attrs">
-        <span class="opacity-84">2nd Stage Voting Starts In:</span>&nbsp; <Countdown :time="competition.second_voting_starts" /></p>
+    <p v-if="isFuture_second_voting_starts" class="blw-semibold" v-bind="$attrs">
+        <span :class="{'opacity-84': opaTitle}">2nd Stage Voting Starts In:</span>&nbsp; <Countdown :time="competition.second_voting_starts" /></p>
 
-    <p v-if="isFuture_second_voting_ends" class="ctexts blw-semibold" v-bind="$attrs">
-        <span class="opacity-84">2nd Stage Voting Ends In:</span>&nbsp; <Countdown :time="competition.second_voting_ends" /></p>
+    <p v-if="isFuture_second_voting_ends" class="blw-semibold" v-bind="$attrs">
+        <span :class="{'opacity-84': opaTitle}">2nd Stage Voting Ends In:</span>&nbsp; <Countdown :time="competition.second_voting_ends" /></p>
 </template>
-
-
-<style scoped>
-@reference "@/css/app.css";
-
-.ctexts { @apply text-base }
-</style>
