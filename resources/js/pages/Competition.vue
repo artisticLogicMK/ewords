@@ -5,12 +5,15 @@ import initScrollAnimations from '@/lib/scrollAnimations'
 import AppLayout from '@/layouts/AppLayout.vue'
 import PagesHeader from '@/components/PagesHeader.vue'
 import ContestantsCard from '@/components/ContestantsCard.vue'
+import Countdowns from '@/components/Countdowns.vue'
 import { PhInfo } from '@phosphor-icons/vue'
+
+const { competition } = defineProps(['competition'])
 
 const breadcumb = [
     { name: "Home", url: "/" },
     { name: "Competitions", url: "/competitions" },
-    { name: "18th Spoken Words Contest", url: "/competitions" }
+    { name: competition.title, url: `/competitions/${competition.slug}` }
 ]
 
 const contestants = [
@@ -25,48 +28,37 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Competitions" />
+    <Head :title="competition.title" />
 
     <AppLayout>
 
         <PagesHeader
-            title="Competitions"
+            :title="competition.title"
             :breadcumb="breadcumb"
             class="mb-25 scale-in"
+            :image="competition.cover"
         />
 
         <main class="w-full max-w-2xl mx-auto mb-30 px-4 sm:px-6">
+
+          <p class="mb-5 text-blue-500 text-center">
+              <Countdowns :competition="competition" />
+          </p>
           
           <div class="flex justify-center mb-3">
             <div class="w-fit h-fit grad rounded-md overflow-hidden">
-              <img src="/assets/trophy.png" class="w-45 sm:w-50 scale-in" alt="" />
+              <img :src="competition.cover ? `/storage/${competition.cover}` : '/assets/trophy.png'" class="w-45 sm:w-50 scale-in" :alt="competition.title" />
             </div>
           </div>
 
 
-          <h1 class="text-2xl sm:text-3xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-5 text-center">18th Spoken Words Contest</h1>
+          <h1 class="text-2xl sm:text-3xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-5 text-center">
+            {{ competition.title }}
+          </h1>
   
   
           <div class="w-full mb-3 torch-doc border-b bdr pb-5">
-              Spoken Word Contest is a Talent competition organised by Sageatwords.com.<br><br>
-- Registration ended at exactly 09:00pm on the May 9th 2025.<br>
-- Voting started at exactly 12:00am on the May 10th 2025.<br>
-- Voting was activated at exactly 12:00am on the May 10th 2025.<br>
-- Voting for the 1st Stage will end May 16th 2025.<br>
-- Votes for the 1st Stage determine those going into the 2nd Stage. And votes for the 2nd Stage determine the Winners. Which means everyone's votes will start afresh.<br>
-- The 1st Stage ended by 11:59 pm, May 16th 2025. Only the Top 30 Contestants (by votes) qualified.<br>
-- The 2nd Stage starts immediately on the May 17th 2025.<br>
-- Voting for the 2nd Stage will be activated by 7:00 am, on May 17th 2025.<br>
-- Voting for the 2nd Stage will officially start by 7:00 am on May 17th 2025.<br>
-- The 2nd Stage is the Final Stage.<br>
-- The 2nd Stage ends at 11:59 pm, May 23rd 2025.<br>
-- The Top 3 Contestants win the prize.<br><br>
-<strong>Prizes</strong><br>
-- 1st Prize: N500,000 + Golden-Luxe Award Plaque + 2 Years Long Supply of Premium Ballpoint Pens.<br>
-- 2nd Prize: N150,000<br>
-- 3rd Prize: N50,000<br>
-For more info and support, email support@sageatwords.com<br><br>
-This competition is sponsored by TheNextStar, TheMostCreative, and SageAtWords.
+            {{ competition.content }}
           </div>
 
           <div>
