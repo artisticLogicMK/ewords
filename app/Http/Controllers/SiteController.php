@@ -187,18 +187,15 @@ class SiteController extends Controller
 
 
 
-    public function contestant($slug, Contestant $contestant)
+    public function contestant(Competition $competition, Contestant $contestant)
     {
-        // For extra safety, verify the contestant belongs to the competition
-        $competition = Competition::where('slug', $slug)->where('deleted', 0)->firstOrFail()->makeHidden($this->hiddenFields);
-
-        if ($contestant->competition_id !== $competition->id) {
-            abort(404); // contestant doesn't belong to this competition
-        }
-
         return Inertia::render('Contestant', [
             'contestant' => $contestant,
-            'competition' => $competition,
+            'competition' => $competition->makeHidden($this->hiddenFields),
+            'shareUrl' => route('site.contestant', [
+                'competition' => $competition->slug,
+                'contestant' => $contestant->slug,
+            ]),
         ]);
     }
 

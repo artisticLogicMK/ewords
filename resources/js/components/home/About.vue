@@ -6,7 +6,7 @@
             <p class="text-sm sm:text-base text-black/75 fade-in" data-start="top 80%">We're building a stage for Nigeria's boldest voice. {{ $page.props.name }} is a platform where writers and spoken word artists compete, connect, and get recognized. Wether you're seasoned or starting out, your voice deserves to be heard.</p>
         </div>
 
-        <div class="shrink-0 w-54 h-54 sm:w-60 sm:h-60 mx-auto flex items-center justify-center relative">
+        <div class="shrink-0 w-50 h-50 sm:w-60 sm:h-60 mx-auto flex items-center justify-center relative">
             <div class="absolute top-0 left-0 w-full h-full bg-radial from-sky-600 to-[#000508] rounded-full scale-in"></div>
             <img src="/assets/goldhand.png" class="relative w-full rotate-in" />
         </div>

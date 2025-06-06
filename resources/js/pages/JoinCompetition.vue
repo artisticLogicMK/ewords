@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import { Link, useForm } from '@inertiajs/vue3'
 import { ref, watch } from 'vue'
 import AppLayout from '@/layouts/AppLayout.vue'
 import PagesHeader from '@/components/PagesHeader.vue'
@@ -66,7 +66,8 @@ const breadcumb = [
 </script>
 
 <template>
-    <Head :title="`Join ${competition.title}`" />
+
+    <OpenGraph title="`Join ${competition.title}`" :image="`/storage/${competition.cover}`" />
 
     <AppLayout>
 

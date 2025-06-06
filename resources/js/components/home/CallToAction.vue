@@ -16,7 +16,7 @@ import { Link } from '@inertiajs/vue3'
 
         <div class="relative flex flex-col justify-center items-center px-4 sm:px-6">
             <h1 class="text-4xl sm:text-5xl text-[var(--echo-dark-400)] barlow-condensed-bold mb-5 mt-4 sm:mt-0 text-center text-in">Are you ready to echo your truth?</h1>
-            <p class="max-w-sm text-base text-black70 mb-5 text-center text-in">Join hundreds of voices echoing across Nigeria. Your words matter. Make them heard.</p>
+            <p class="max-w-sm text-base text-black/70 mb-5 text-center text-in">Join hundreds of voices echoing across Nigeria. Your words matter. Make them heard.</p>
             <Link href="/latest" class="btns btn-grad text-black bg-blue-500 slide-up">Join Now!</Link>
         </div>
 

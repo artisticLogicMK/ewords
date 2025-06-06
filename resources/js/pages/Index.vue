@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, provide } from 'vue'
 import initScrollAnimations from '@/lib/scrollAnimations'
-import { Head } from '@inertiajs/vue3'
 
 import AppLayout from '@/layouts/AppLayout.vue'
 import Hero from '@/components/home/Hero.vue'
@@ -20,7 +19,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Home" />
+
+    <OpenGraph title="Home" image="/assets/social.png" />
  
     <AppLayout>
 

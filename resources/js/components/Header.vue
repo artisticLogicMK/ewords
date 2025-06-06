@@ -30,7 +30,7 @@ onBeforeUnmount(() => document.body.style.overflow = 'auto')
 
 <template>
     <nav class="flex w-full max-w-6xl mx-auto items-center justify-between px-5 py-6">
-        <img src="/assets/ew-logo.png" class="w-28" alt="EchoWords Logo">
+        <img src="/assets/ew-logo.png" class="w-28" :alt="`${$page.props.name} Logo`">
 
         <div class="hidden md:block links">
             <Link v-for="link in headlinks" :key="link.url" :href="link.url" :class="{'active-navlink': isItActive(link)}">

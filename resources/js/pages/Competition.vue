@@ -1,5 +1,5 @@
 <script setup>
-import { Head, Link, router } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
 import { onMounted } from 'vue'
 import initScrollAnimations from '@/lib/scrollAnimations'
 import AppLayout from '@/layouts/AppLayout.vue'
@@ -27,14 +27,8 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head :title="competition.title">
-      <!-- Open Graph -->
-      <meta property="og:image" :content="competition.cover ? `/storage/${competition.cover}` : '/assets/default_cover.png'" />
-
-      <!-- Twitter Card -->
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:image" :content="competition.cover ? `/storage/${competition.cover}` : '/assets/default_cover.png'" />
-    </Head>
+    
+    <OpenGraph :title="competition.title" :image="`/storage/${competition.cover}`" />
 
     <AppLayout>
 
@@ -69,7 +63,7 @@ onMounted(() => {
           <div class="w-full mb-3 torch-doc border-b bdr pb-5" v-html="competition.content"></div>
 
           <div>
-            <div class="flex items-center justify-between mb-5">
+            <div class="flex items-end justify-between mb-5">
               <h1 class="text-xl sm:text-2xl text-[var(--echo-dark-400)] barlow-condensed-bold">Contestants</h1>
               <div class="space-x-3">
                 <button @click="refresh" class="btns-sm btn-grad">Refresh</button>

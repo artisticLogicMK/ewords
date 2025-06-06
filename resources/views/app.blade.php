@@ -32,6 +32,8 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
+        <meta name="description" content="We're building a stage for Nigeria's boldest voice. EchoWords is a platform where writers and spoken word artists compete, connect, and get recognized. Wether you're seasoned or starting out, your voice deserves to be heard."/>
+
         <link rel="icon" href="/favicon.ico" sizes="any">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">

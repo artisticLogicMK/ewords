@@ -34,7 +34,7 @@ const competition = inject('competition')
                         >Join Competition</Link>
         
                         <span class="mb-3 text-white text-base">
-                            <Countdowns v-if="competition" :competition="competition" :opaTitle="true" />
+                            <Countdowns v-if="competition" class="flex flex-wrap" :competition="competition" :opaTitle="true" />
                         </span>
                     </div>
                 </div>

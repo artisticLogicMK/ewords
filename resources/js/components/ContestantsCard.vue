@@ -16,7 +16,7 @@ defineProps(['contestant', 'isVoting', 'competitionSlug'])
       <p class="text-xs text-neutral-600/90 text-center mb-3">{{ contestant.title_of_piece }}</p>
       
       <Link
-        :href="isVoting ? `/competitions/${competitionSlug}/contestant/${contestant.slug}` : ''"
+        :href="isVoting ? `/competitions/${competitionSlug}/contestants/${contestant.slug}` : ''"
         class="btns-sm btn-grad"
         :class="{'opacity-60 pointer-events-none': !isVoting}">Vote</Link>
     </div>

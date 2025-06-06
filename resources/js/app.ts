@@ -6,6 +6,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
+import OpenGraph from '@/components/OpenGraph.vue';
 //import { initializeTheme } from './composables/useAppearance';
 
 // Extend ImportMeta interface for Vite...
@@ -30,6 +31,7 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
+            .component('OpenGraph', OpenGraph)
             .mount(el);
     },
     progress: {
