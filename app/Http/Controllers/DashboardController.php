@@ -110,12 +110,12 @@ class DashboardController extends Controller
         }
 
 
-        $manager = new ImageManager(new Driver());
-
-        $folder = "competitions/{$competition->slug}";
-
         foreach (['cover', 'winner_pic', 'first_runner_pic', 'second_runner_pic'] as $field) {
             if ($request->hasFile($field)) {
+
+                $manager = new ImageManager(new Driver());
+
+                $folder = "competitions/{$competition->slug}";
                 
                 if (!empty($competition->{$field}) && Storage::disk('public')->exists($competition->{$field})) {
                     Storage::disk('public')->delete($competition->{$field});

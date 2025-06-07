@@ -120,3 +120,7 @@ button {
 .error-alert {
   @apply bg-red-50 border-red-400
 }
+
+.none {
+  @apply text-center text-neutral-400/60 text-2xl font-bold
+}

@@ -51,7 +51,7 @@ const breadcumb = [
     <OpenGraph
         :title="`${contestant.name} | ${competition.title}`"
         :description="`Cast your vote for ${contestant.name}’s powerful piece in the ${competition.title}.`"
-        :image="`/storage/${contestant.picture_path}`" />
+        :image="contestant.picture_path ? `/storage/${contestant.picture_path}` : '/assets/default_contestant.png'" />
 
     <AppLayout>
 
@@ -60,7 +60,7 @@ const breadcumb = [
             :breadcumb="breadcumb"
             class="mb-20 scale-in"
             :image="contestant.picture_path"
-            :picture="`/storage/${contestant.picture_path}`"
+            :picture="contestant.picture_path ? `/storage/${contestant.picture_path}` : '/assets/default_contestant.png'"
         />
 
 
@@ -71,7 +71,7 @@ const breadcumb = [
             <div class="md:flex items-start justify-center space-x-6">
                 <video
                     v-if="contestant.video_path"
-                    :src="`/storage/${contestant.video_path}`"
+                    :src="contestant.video_path ? `/storage/${contestant.video_path}` : '/assets/default_video.png'"
                     controls
                     id="video"
                     class="w-full max-w-sm mx-auto rounded-lg mb-5 md:mb-0"
@@ -111,15 +111,21 @@ const breadcumb = [
                     <form @submit.prevent="pay" class="mb-7">
                         <p class="text-sm text-neutral-600 mb-2">Desired number of votes to give</p>
                         <select v-model="votesSel" class="input max-w-[250px] mb-4">
-                            <option v-for="opt in voteOptions" :key="opt.value" :value="opt">{{ opt.value }} votes – {{ opt.price }}</option>
+                            <option v-for="opt in voteOptions" :key="opt.value" :value="opt">
+                                {{ opt.value }} votes – {{ opt.price }}
+                            </option>
                         </select>
 
-                        <button class="btns btn-grad">Pay {{ votesSel.price }} For {{ votesSel.value }} Votes</button>
+                        <button class="btns btn-grad">
+                            Pay {{ votesSel.price }} For {{ votesSel.value }} Votes
+                        </button>
                     </form>
 
 
                     <div>
-                        <h1 class="text-lg sm:text-xl text-neutral-700 font-semibold mb-3">About {{ contestant.name }}'s Work'</h1>
+                        <h1 class="text-lg sm:text-xl text-neutral-700 font-semibold mb-3">
+                            About {{ contestant.name }}'s Work
+                        </h1>
 
                         <div class="contestant-info">
                             <h1>Piece Title</h1>

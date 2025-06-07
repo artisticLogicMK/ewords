@@ -93,12 +93,14 @@ class SiteController extends Controller
                 'slug' => 'required',
                 'age' => 'nullable|integer|min:1',
                 'location' => 'required|string|max:255',
-                'occupation' => 'nullable|string|max:255',
+                'occupation' => 'required|string|max:255',
                 'title_of_piece' => 'required|string|max:255',
                 'writing_experience' => 'required|string|max:255',
                 'discovery_story' => 'required|string',
-                'video_path' => 'required|file|mimes:mp4,mov|max:51200', // Max ~50MB
-                'picture_path' => 'required|image|mimes:jpg,jpeg,png|max:3072', // Max 3MB
+                'video_path' => 'nullable|file|mimes:mp4,mov|max:51200', // Max ~50MB
+                'picture_path' => 'nullable|image|mimes:jpg,jpeg,png|max:3072', // Max 3MB
+                //'video_path' => 'required|file|mimes:mp4,mov|max:51200', // Max ~50MB
+                //'picture_path' => 'required|image|mimes:jpg,jpeg,png|max:3072', // Max 3MB
             ], [], [ // ← this third array is for custom attribute names
                 'name' => 'Name',
                 'age' => 'Age',

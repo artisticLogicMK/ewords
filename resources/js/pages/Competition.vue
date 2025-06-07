@@ -50,7 +50,7 @@ onMounted(() => {
           <div class="flex justify-center mb-5">
             <div class="w-fit h-fit grad rounded-md overflow-hidden">
               <img :src="competition.cover ? `/storage/${competition.cover}` : '/assets/trophy.png'"
-                class="w-45 h-45 sm:w-50 sm:h-50 object-cover object-center" :alt="competition.title" />
+                class="w-45 h-45 sm:w-50 sm:h-50 object-cover object-center border border-neutral-200" :alt="competition.title" />
             </div>
           </div>
 
@@ -75,7 +75,7 @@ onMounted(() => {
               <PhInfo weight="fill" class="text-lg inline-block" /> As of today, {{  moment().format('ddd MMM D, YYYY h:mm a') }}, the contestants listed below are the Top Contestants (by votes). {{ competition.voting_active === 1 ? 'Voting is still on. Keep voting to increase the position of your favorite contestants.' : ''}} The Top 3 Contestants wins the prize.
             </p>
             
-            <div class="sm:grid grid-cols-2 gap-4 mb-5">
+            <div v-if="contestants.length" class="sm:grid grid-cols-2 gap-4 mb-5">
               <ContestantsCard
                 v-for="c in contestants"
                 :key="c.name"
@@ -83,8 +83,10 @@ onMounted(() => {
                 :isVoting="competition.voting_active === 1"
                 :competitionSlug="competition.slug" />
             </div>
+
+            <div v-else class="none mt-8">🏆 No Contestants Yet...</div>
             
-            <div class="w-full flex justify-center">
+            <div v-if="contestants.length" class="w-full flex justify-center">
                 <Link :href="`/competitions/${competition.slug}/contestants`" class="btns btn-grad bg-blue-500 slide-up">View All Contestants</Link>
             </div>
             

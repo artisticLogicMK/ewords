@@ -20,8 +20,8 @@ class CreateContestantsTable extends Migration
             $table->string('title_of_piece');
             $table->string('writing_experience');
             $table->text('discovery_story');
-            $table->string('video_path');
-            $table->string('picture_path');
+            $table->string('video_path')->nullable();
+            $table->string('picture_path')->nullable();
             $table->integer('youtube')->default(0);
             $table->string('youtube_link')->nullable();
             $table->integer('prioritize')->default(0);

@@ -67,7 +67,7 @@ const breadcumb = [
 
 <template>
 
-    <OpenGraph title="`Join ${competition.title}`" :image="`/storage/${competition.cover}`" />
+    <OpenGraph :title="`Join ${competition.title}`" :image="`/storage/${competition.cover}`" />
 
     <AppLayout>
 
@@ -115,7 +115,7 @@ const breadcumb = [
                 </div>
 
                 <div class="mb-5">
-                    <Label>Occupation</Label>
+                    <Label :required="true">Occupation</Label>
                     <Input type="text" v-model="form.occupation" />
                     <InputError :message="form.errors.occupation" />
                 </div>
@@ -128,17 +128,17 @@ const breadcumb = [
 
                 <div class="mb-5">
                     <Label :required="true">How long have you been writing?</Label>
-                    <Input type="text" v-model="form.writing_experience" />
+                    <textarea v-model="form.writing_experience" class="input" rows="3" style="height:auto"></textarea>
                     <InputError :message="form.errors.writing_experience" />
                 </div>
 
                 <div class="mb-5">
                     <Label :required="true">How did you discover your writing talent?</Label>
-                    <textarea type="text" v-model="form.discovery_story" class="input" rows="3" style="height:auto"></textarea>
+                    <textarea v-model="form.discovery_story" class="input" rows="3" style="height:auto"></textarea>
                     <InputError :message="form.errors.discovery_story" />
                 </div>
 
-                <div class="mb-5">
+                <div class="mb-5 opacity-50 pointer-events-none">
                     <Label :required="true">
                         <template #description>Max file size of 50MB</template>
                         Upload Spoken Word Video (Max 3 min, mp4/mov)
@@ -147,7 +147,7 @@ const breadcumb = [
                         <InputError :message="form.errors.video_path" />
                 </div>
 
-                <div class="mb-5">
+                <div class="mb-5 opacity-50 pointer-events-none">
                     <Label :required="true">
                         <template #description>Max file size of 3MB</template>
                         Upload Picture (jpg/png)

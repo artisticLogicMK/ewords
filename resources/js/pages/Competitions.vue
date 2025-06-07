@@ -42,7 +42,7 @@ onMounted(() => {
                 />
             </div>
 
-            <div v-else class="text-center text-neutral-300 text-2xl font-bold mt-8">
+            <div v-else class="none mt-8">
                 🏆 No Competitions yet...
             </div>
 
