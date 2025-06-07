@@ -71,7 +71,7 @@ const breadcumb = [
             <div class="md:flex items-start justify-center space-x-6">
                 <video
                     v-if="contestant.video_path"
-                    :src="contestant.video_path ? `/storage/${contestant.video_path}` : '/assets/default_video.png'"
+                    :src="contestant.video_path ? `/storage/${contestant.video_path}` : '/assets/default_video.webm'"
                     controls
                     id="video"
                     class="w-full max-w-sm mx-auto rounded-lg mb-5 md:mb-0"
