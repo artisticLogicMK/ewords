@@ -1,0 +1,1 @@
+.elliptical-background{animation:backgroundMotion 50s linear infinite}@keyframes backgroundMotion{0%{background-position:50% 30%;transform:scale(1.02)}25%{background-position:70% 50%;transform:scale(1.2)}50%{background-position:50% 70%;transform:scale(1)}75%{background-position:30% 20%;transform:scale(1.05)}to{background-position:50% 30%;transform:scale(1.03)}}
