@@ -80,7 +80,7 @@ onMounted(() => {
                 v-for="c in contestants"
                 :key="c.name"
                 :contestant="c"
-                :isVoting="competition.voting_active === 1"
+                :isVoting="competition.voting_active === 1 && competition.registration_active === 0"
                 :competitionSlug="competition.slug" />
             </div>
 
