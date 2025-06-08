@@ -136,7 +136,7 @@ onMounted(() => {
                 </div>
 
                 <div class="dbox px-3 sm:px-4 py-4 mb-5">
-                    <p class="mb-5 note">This section is only used to display real-time countdowns of the competition. Only 1 of these times can be set at a time, so not to break the layout of the site.</p>
+                    <p class="mb-5 note">This section is only used to display real-time countdowns of the competition. Please set only 1 of these at a time, or else the layout of the site will break.</p>
 
                     <div class="mb-4">
                         <Label>Registration Closes At</Label>
