@@ -191,14 +191,18 @@ class SiteController extends Controller
 
     public function contestant(Competition $competition, Contestant $contestant)
     {
-        return Inertia::render('Contestant', [
-            'contestant' => $contestant,
-            'competition' => $competition->makeHidden($this->hiddenFields),
-            'shareUrl' => route('site.contestant', [
-                'competition' => $competition->slug,
-                'contestant' => $contestant->slug,
-            ]),
-        ]);
+        if ($competition->registration_active == 0 && $competition->voting_active == 1) {
+            return Inertia::render('Contestant', [
+                'contestant' => $contestant,
+                'competition' => $competition->makeHidden($this->hiddenFields),
+                'shareUrl' => route('site.contestant', [
+                    'competition' => $competition->slug,
+                    'contestant' => $contestant->slug,
+                ]),
+            ]);
+        } else {
+            return redirect()->route('site.competition', $competition->slug);
+        }
     }
 
     
