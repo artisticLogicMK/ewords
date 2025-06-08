@@ -64,17 +64,17 @@ const breadcumb = [
         />
 
 
-        <main class="w-full md:w-fit max-w-4xl mx-auto mb-30 px-4 sm:px-6">
+        <main class="w-full md:w-fitj max-w-4xl mx-auto mb-30 px-4 sm:px-6">
           
             <Countdowns :competition="competition" class="countdown" />
 
-            <div class="md:flex items-start justify-center space-x-6">
+            <div class="md:flex items-start justify-center">
                 <video
                     v-if="contestant.video_path"
                     :src="contestant.video_path ? `/storage/${contestant.video_path}` : '/assets/default_video.webm'"
                     controls
                     id="video"
-                    class="w-full max-w-sm mx-auto rounded-lg mb-5 md:mb-0"
+                    class="w-full max-w-sm mx-auto rounded-lg md:mr-6 mb-5 md:mb-0"
                 ></video>
 
 
