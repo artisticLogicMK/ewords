@@ -201,7 +201,29 @@ class SiteController extends Controller
                 ]),
             ]);
         } else {
-            return redirect()->route('site.competition', $competition->slug);
+            return redirect()->route('site.competition', $competition->slug)->with('error', 'Voting is disabled for this competition!');
+        }
+    }
+
+
+    public function addVotes(Request $request, Competition $competition, Contestant $contestant)
+    {
+        // Ensure the contestant belongs to this competition
+        if ($contestant->competition_id !== $competition->id) {
+            abort(404, 'Contestant does not belong to this competition.');
+        }
+        
+        if ($competition->voting_active == 1 && $competition->active == 1) {
+            // Validate votes
+            $validated = $request->validate([
+                'votes' => 'required|integer|min:1',
+            ]);
+
+            $contestant->increment('votes', $validated['votes']);
+
+            return back()->with('success', 'Votes successfully added!');
+        } else {
+            abort(403, 'Voting is not currently active.');
         }
     }
 

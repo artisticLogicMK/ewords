@@ -25,7 +25,21 @@ function copyToClipboard() {
 }
 
 function pay() {
-    votes.value += votesSel.value.value
+  router.post(
+    route('contestant.vote', {
+      competition: competition.slug,
+      contestant: contestant.slug,
+    }),
+    { votes: votesSel.value.value },
+    {
+      onSuccess: () => {
+        votes.value += votesSel.value.value
+      },
+      onError: (errors) => {
+        console.error(errors)
+      }
+    }
+  )
 }
 
 const voteOptions = [
@@ -65,6 +79,8 @@ const breadcumb = [
 
 
         <main class="w-full md:w-fitj max-w-4xl mx-auto mb-30 px-4 sm:px-6">
+
+            <div v-if="$page.props.flash.success" class="alerts success-alert mb-5">{{ $page.props.flash.success }}</div>
           
             <Countdowns :competition="competition" class="countdown" />
 
@@ -110,7 +126,7 @@ const breadcumb = [
 
                     <form @submit.prevent="pay" class="mb-7">
                         <p class="text-sm text-neutral-600 mb-2">Desired number of votes to give</p>
-                        <select v-model="votesSel" class="input max-w-[250px] mb-4">
+                        <select v-model="votesSel" class="input text-lg max-w-[250px] mb-4" style="font-size: 1.125rem;">
                             <option v-for="opt in voteOptions" :key="opt.value" :value="opt">
                                 {{ opt.value }} votes – {{ opt.price }}
                             </option>

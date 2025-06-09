@@ -36,8 +36,39 @@ const progress = ref(null)
 
 // file input handler
 function handleFileChange(e, field) {
-  form[field] = e.target.files[0]
+    const file = e.target.files[0]
+
+    // Ensure selected video is not more than 3 mins
+    if (field === 'video_path') {
+        // Create a video element
+        const video = document.createElement('video')
+        video.preload = 'metadata'
+
+        video.onloadedmetadata = () => {
+            window.URL.revokeObjectURL(video.src)
+            const duration = video.duration
+
+            if (duration > 180) {
+                alert('Video must not be longer than 3 minutes.')
+                e.target.value = null // reset file input
+                form.video_path = null
+            } else {
+                form.video_path = file
+            }
+        }
+
+        video.onerror = () => {
+            alert('Invalid video file.')
+            e.target.value = null
+            form.video_path = null
+        }
+
+        video.src = URL.createObjectURL(file)
+    } else {
+        form[field] = file
+    }
 }
+
 
 function submit() {
     if (!termsChecked) return 
@@ -145,6 +176,10 @@ const breadcumb = [
                     </Label>
                     <Input type="file" @change="e => handleFileChange(e, 'video_path')" accept=".mp4, .mov" />
                         <InputError :message="form.errors.video_path" />
+                        <p class="text-sm text-neutral-600 mt-2">
+                            Is your video file size above 50MB? Compress 
+                            <a href="https://clideo.com/compress-video" class="text-blue-600 underline underline-offset-4" target="_blank">here</a>.
+                        </p>
                 </div>
 
                 <div class="mb-5 opacity-50 pointer-events-none">

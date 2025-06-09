@@ -46,15 +46,17 @@ const isFuture_second_voting_ends = computed(() =>
     <p v-if="isFuture_reg_closes && competition.registration_active" class="blw-semibold" v-bind="$attrs">
         <span :class="{'opacity-84': opaTitle}">Closes In:</span>&nbsp; <Countdown :time="competition.registration_closes" /></p>
 
-    <p v-if="isFuture_first_voting_starts" class="blw-semibold" v-bind="$attrs">
+    <template v-if="competition.voting_active">
+      <p v-if="isFuture_first_voting_starts" class="blw-semibold" v-bind="$attrs">
         <span :class="{'opacity-84': opaTitle}">1st Stage Voting Starts In:</span>&nbsp; <Countdown :time="competition.first_voting_starts" /></p>
 
-    <p v-if="isFuture_first_voting_ends" class="blw-semibold" v-bind="$attrs">
-        <span :class="{'opacity-84': opaTitle}">1st Stage Voting Ends In:</span>&nbsp; <Countdown :time="competition.first_voting_ends" /></p>
+      <p v-if="isFuture_first_voting_ends" class="blw-semibold" v-bind="$attrs">
+          <span :class="{'opacity-84': opaTitle}">1st Stage Voting Ends In:</span>&nbsp; <Countdown :time="competition.first_voting_ends" /></p>
 
-    <p v-if="isFuture_second_voting_starts" class="blw-semibold" v-bind="$attrs">
-        <span :class="{'opacity-84': opaTitle}">2nd Stage Voting Starts In:</span>&nbsp; <Countdown :time="competition.second_voting_starts" /></p>
+      <p v-if="isFuture_second_voting_starts" class="blw-semibold" v-bind="$attrs">
+          <span :class="{'opacity-84': opaTitle}">2nd Stage Voting Starts In:</span>&nbsp; <Countdown :time="competition.second_voting_starts" /></p>
 
-    <p v-if="isFuture_second_voting_ends" class="blw-semibold" v-bind="$attrs">
-        <span :class="{'opacity-84': opaTitle}">2nd Stage Voting Ends In:</span>&nbsp; <Countdown :time="competition.second_voting_ends" /></p>
+      <p v-if="isFuture_second_voting_ends" class="blw-semibold" v-bind="$attrs">
+          <span :class="{'opacity-84': opaTitle}">2nd Stage Voting Ends In:</span>&nbsp; <Countdown :time="competition.second_voting_ends" /></p>
+    </template>
 </template>

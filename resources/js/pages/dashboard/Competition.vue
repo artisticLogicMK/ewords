@@ -64,9 +64,9 @@ function deleteCompetition(slug) {
 }
 
 const toggles = [
+    { name:'Competition is Ongoing', key:'active'},
     { name:'Registration Active', key:'registration_active'},
     { name:'Voting Active', key:'voting_active'},
-    { name:'Show Competition is Ongoing', key:'active'},
 ]
 
 let competitionLink = ref('')
