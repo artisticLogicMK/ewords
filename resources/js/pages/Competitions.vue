@@ -20,7 +20,7 @@ onMounted(() => {
 
 <template>
 
-    <OpenGraph title="Competitions" />
+    <Head title="Competitions" />
 
     <AppLayout>
 

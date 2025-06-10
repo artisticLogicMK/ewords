@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { Link, router } from '@inertiajs/vue3'
+import { Link, router, Head } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import PagesHeader from '@/components/PagesHeader.vue'
 import Countdowns from '@/components/Countdowns.vue'
@@ -62,10 +62,7 @@ const breadcumb = [
 
 <template>
 
-    <OpenGraph
-        :title="`${contestant.name} | ${competition.title}`"
-        :description="`Cast your vote for ${contestant.name}’s powerful piece in the ${competition.title}.`"
-        :image="contestant.picture_path ? `/storage/${contestant.picture_path}` : '/assets/default_contestant.png'" />
+    <Head :title="`Vote for ${contestant.name} | ${competition.title}`" />
 
     <AppLayout>
 

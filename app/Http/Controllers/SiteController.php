@@ -33,6 +33,11 @@ class SiteController extends Controller
 
         return Inertia::render('Index', [
             'competitions' => $competitions,
+            'ogMeta' => [
+                'title' => 'Home',
+                'description' => "We're building a stage for Nigeria's boldest voices. EchoWords is a platform where writers and spoken word artists compete, connect, and get recognized. Wether you're seasoned or starting out, your voice deserves to be heard.",
+                'image' => asset('/assets/social.png'),
+            ],
         ]);
     }
 
@@ -45,6 +50,10 @@ class SiteController extends Controller
 
         return Inertia::render('Competitions', [
             'competitions' => $competitions,
+            'ogMeta' => [
+                'title' => 'Competitions',
+                'image' => asset('/assets/social.png'),
+            ],
         ]);
     }
 
@@ -60,6 +69,13 @@ class SiteController extends Controller
         return Inertia::render('Competition', [
             'competition' => $competition,
             'contestants' => $competition->contestants,
+            'ogMeta' => [
+                'title' => $competition->title,
+                'description' => $competition->description,
+                'image' => Storage::disk('public')->exists($competition->cover)
+                    ? asset('storage/' . $competition->cover)
+                    : asset('/assets/default_cover.png'),
+            ],
         ]);
     }
 
@@ -71,6 +87,13 @@ class SiteController extends Controller
         if ($competition->registration_active == 1 && $competition->active == 1) {
             return Inertia::render('JoinCompetition', [
                 'competition' => $competition,
+                'ogMeta' => [
+                    'title' => 'Join the '. $competition->title,
+                    'description' => $competition->description,
+                    'image' => Storage::disk('public')->exists($competition->cover)
+                        ? asset('storage/' . $competition->cover)
+                        : asset('/assets/default_cover.png'),
+                ],
             ]);
         } else {
             return redirect()->route('site.competition', $competition->slug)->with('error',"Registration is closed or competition has ended.");
@@ -176,13 +199,20 @@ class SiteController extends Controller
                 ->orWhere('title_of_piece', 'like', "%{$search}%");
         }
 
-        $contestants = $query->paginate(12)->withQueryString(); // 12 per page
+        $contestants = $query->paginate(30)->withQueryString(); // 30 per page
 
         return Inertia::render('Contestants', [
             'competition' => $competition,
             'contestants' => $contestants,
             'filters' => [
                 'search' => $search,
+            ],
+            'ogMeta' => [
+                'title' => 'Contestants: '. $competition->title,
+                'description' => $competition->description,
+                'image' => Storage::disk('public')->exists($competition->cover)
+                    ? asset('storage/' . $competition->cover)
+                    : asset('/assets/default_cover.png'),
             ],
         ]);
     }
@@ -199,6 +229,13 @@ class SiteController extends Controller
                     'competition' => $competition->slug,
                     'contestant' => $contestant->slug,
                 ]),
+                'ogMeta' => [
+                    'title' => 'Vote for '. $contestant->name,
+                    'description' => "Cast your vote for ".$contestant->name."'s powerful piece in the ".$competition->title,
+                    'image' => Storage::disk('public')->exists($contestant->picture_path)
+                        ? asset('storage/' . $competition->picture_path)
+                        : asset('/assets/default_contestant.png'),
+                ],
             ]);
         } else {
             return redirect()->route('site.competition', $competition->slug)->with('error', 'Voting is disabled for this competition!');

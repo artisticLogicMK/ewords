@@ -32,7 +32,17 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-        <meta name="description" content="We're building a stage for Nigeria's boldest voice. EchoWords is a platform where writers and spoken word artists compete, connect, and get recognized. Wether you're seasoned or starting out, your voice deserves to be heard."/>
+        <meta name="description" content="We're building a stage for Nigeria's boldest voices. EchoWords is a platform where writers and spoken word artists compete, connect, and get recognized. Wether you're seasoned or starting out, your voice deserves to be heard."/>
+
+    @if(isset($page['props']['ogMeta']))
+        <meta property="og:title" content="{{ $page['props']['ogMeta']['title'] }}">
+        @if(isset($page['props']['ogMeta']['description']))
+        <meta property="og:description" content="{{ $page['props']['ogMeta']['description'] }}">
+        @endif
+        <meta property="og:image" content="{{ $page['props']['ogMeta']['image'] }}">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:image" content="{{ $page['props']['ogMeta']['image'] }}">
+    @endif
 
         <link rel="icon" href="/favicon.ico" sizes="any">
 

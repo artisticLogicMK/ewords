@@ -1,5 +1,5 @@
 <script setup>
-import { Link, router } from '@inertiajs/vue3'
+import { Link, router, Head } from '@inertiajs/vue3'
 import { onMounted } from 'vue'
 import initScrollAnimations from '@/lib/scrollAnimations'
 import AppLayout from '@/layouts/AppLayout.vue'
@@ -29,7 +29,7 @@ onMounted(() => {
 
 <template>
     
-    <OpenGraph :title="competition.title" :image="`/storage/${competition.cover}`" />
+    <Head :title="competition.title" />
 
     <AppLayout>
 

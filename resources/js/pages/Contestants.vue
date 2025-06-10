@@ -1,5 +1,5 @@
 <script setup>
-import { Link, router } from '@inertiajs/vue3'
+import { Link, router, Head } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import PagesHeader from '@/components/PagesHeader.vue'
 import ContestantsCard from '@/components/ContestantsCard.vue'
@@ -34,7 +34,7 @@ const breadcumb = [
 
 <template>
 
-    <OpenGraph :title="`Contestants: ${competition.title}`" :image="`/storage/${competition.cover}`" />
+    <Head :title="`Contestants: ${competition.title}`" />
 
     <AppLayout>
 

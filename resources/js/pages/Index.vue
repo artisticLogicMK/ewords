@@ -19,8 +19,6 @@ onMounted(() => {
 </script>
 
 <template>
-
-    <OpenGraph title="Home" image="/assets/social.png" />
  
     <AppLayout>
 
