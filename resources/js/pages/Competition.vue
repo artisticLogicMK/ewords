@@ -67,7 +67,7 @@ onMounted(() => {
           <div class="w-full mb-3 torch-doc border-b bdr pb-5" v-html="competition.content"></div>
 
 
-          <template v-if="competition.set_winners === 1 && competition.active === 0 && competition.registration_active === 0">
+          <template v-if="competition.set_winners === 1 && competition.active === 0 && competition.registration_active === 0 && competition.voting_active === 0">
             <h1 class="text-xl sm:text-2xl blw-semibold text-[var(--echo-dark-400)] text-center mt-5">Winners of the {{ competition.title }}.</h1>
             <div class="sm:grid grid-cols-1 gap-4 mb-5 mt-5">
 
