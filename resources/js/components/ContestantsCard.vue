@@ -10,8 +10,8 @@ defineProps(['contestant', 'isVoting', 'competitionSlug'])
       <div class="w-fit h-fit relative">
         <img
           :src="contestant.picture_path ? `/storage/${contestant.picture_path}` : '/assets/default_contestant.png'"
-          class="w-24 h-24 object-cover object-center border-2 border-blue-500 rounded-full mb-3" />
-        <div v-if="contestant.votes > 0" class="absolute top-0 right-0.5 flex justify-center items-center w-6 h-6 text-white bg-red-500 rounded-full text-xs">{{ contestant.votes }}</div>
+          class="w-28 h-28 object-cover object-center border-2 border-blue-500 rounded-full mb-3" />
+        <div v-if="contestant.votes > 0" class="absolute top-0.5 right-1 flex justify-center items-center w-6 h-6 text-white bg-red-500 rounded-full text-xs">{{ contestant.votes }}</div>
       </div>
       
       <h1 class="text-base sm:text-lg font-bold text-[var(--echo-dark-400)] text-center">{{ contestant.name }}</h1>

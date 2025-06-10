@@ -60,6 +60,7 @@ class DashboardController extends Controller
             'description' => 'required|string|max:255',
             'content' => 'nullable|string|max:100000',
             'past_winners_content' => 'nullable|string|max:100000',
+            'set_winners' => 'required',
             'winner' => 'nullable|string|max:255',
             'winner_pic' => $request->hasFile('winner_pic') ? 'image|max:2048' : 'nullable',
             'first_runner' => 'nullable|string|max:255',

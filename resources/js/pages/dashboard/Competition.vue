@@ -15,7 +15,7 @@ const form = useForm({
   active: competition.active,
   voting_active: competition.voting_active,
   registration_active: competition.registration_active,
-  set_winners: 0,
+  set_winners: competition.set_winners,
   description: competition.description,
   content: competition.content,
   cover: competition.cover,
