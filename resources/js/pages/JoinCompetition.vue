@@ -17,9 +17,12 @@ const { competition } = defineProps(['competition'])
 const form = useForm({
     name: '',
     slug: '',
-    age: null,
-    location: '',
-    occupation: '',
+    //age: null,
+    //location: '',
+    email: '',
+    phone: '',
+    insta: '',
+    //occupation: '',
     title_of_piece: '',
     writing_experience: '',
     discovery_story: '',
@@ -130,13 +133,13 @@ const breadcumb = [
                     <InputError :message="form.errors.name" />
                 </div>
 
-                <div class="mb-5">
+                <div class="mb-5 hidden">
                     <Label>Age</Label>
                     <Input type="number" v-model="form.age" />
                     <InputError :message="form.errors.age" />
                 </div>
 
-                <div class="mb-5">
+                <div class="mb-5 hidden">
                     <Label :required="true">Location</Label>
                     <select type="text" v-model="form.location" class="input">
                         <option value="">Select</option>
@@ -146,6 +149,29 @@ const breadcumb = [
                 </div>
 
                 <div class="mb-5">
+                    <Label :required="true">
+                        <template #description>Ensure your email is correct and active to avoid disqualification.</template>
+                        Email
+                    </Label>
+                    <Input type="email" v-model="form.email" placeholder="mail@example.com" />
+                    <InputError :message="form.errors.email" />
+                </div>
+
+                <div class="mb-5">
+                    <Label :required="true">
+                        <template #description>Ensure this number is available on WhatsApp so we can message you.</template>
+                        Telephone No</Label>
+                    <Input type="tel" v-model="form.phone" placeholder="+23466090989" />
+                    <InputError :message="form.errors.phone" />
+                </div>
+
+                <div class="mb-5">
+                    <Label>Instagram Handle</Label>
+                    <Input type="text" v-model="form.insta" placeholder="@username" />
+                    <InputError :message="form.errors.insta" />
+                </div>
+
+                <div class="mb-5 hidden">
                     <Label :required="true">Occupation</Label>
                     <Input type="text" v-model="form.occupation" />
                     <InputError :message="form.errors.occupation" />
@@ -169,7 +195,7 @@ const breadcumb = [
                     <InputError :message="form.errors.discovery_story" />
                 </div>
 
-                <div class="mb-5 opacity-50 pointer-events-none">
+                <div class="mb-5 _opacity-50 _pointer-events-none">
                     <Label :required="true">
                         <template #description>Max file size of 50MB</template>
                         Upload Spoken Word Video (Max 3 min, mp4/mov)
@@ -182,7 +208,7 @@ const breadcumb = [
                         </p>
                 </div>
 
-                <div class="mb-5 opacity-50 pointer-events-none">
+                <div class="mb-5 _opacity-50 _pointer-events-none">
                     <Label :required="true">
                         <template #description>Max file size of 3MB</template>
                         Upload Picture (jpg/png)

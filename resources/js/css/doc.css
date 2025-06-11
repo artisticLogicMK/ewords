@@ -137,3 +137,7 @@
 .torch-doc .ql-video, .ql-editor .ql-video {
   @apply w-full max-w-lg aspect-video my-1 rounded-lg;
 }
+
+.torch-doc img, .ql-editor img {
+  @apply w-full max-w-lg rounded-md;
+}

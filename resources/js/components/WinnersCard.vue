@@ -1,10 +1,13 @@
 <script setup>
-defineProps(['name', 'picture'])
+defineProps(['name', 'picture', 'position', 'emoji'])
 </script>
 
 <template>
-    <div class="contcards flex flex-col justify-between w-full max-w-sm mx-auto items-center border bdr rounded-lg mb-5 sm:mb-0 last:mb-0 p-3 py-6 shadow-sm">
-    <h1 class="text-base sm:text-lg font-bold text-[var(--echo-dark-400)] text-center mb-3">{{ name }}</h1>
+    <div class="contcards flex flex-col justify-between w-full max-w-sm mx-auto items-center border bdr rounded-lg mb-5 sm:mb-0 last:mb-0 p-3 py-5 shadow-sm">
+    <h1 class="text-base sm:text-lg font-bold text-[var(--echo-dark-400)] text-center mb-1">{{ emoji }} {{ name }}</h1>
+    <p class="text-xs text-neutral-600/80 text-center mb-3">
+      <strong>{{ name }}</strong> emerged as the <strong>{{ position }}</strong>
+    </p>
       
       <div class="w-fit h-fit relative">
         <img

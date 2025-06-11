@@ -46,7 +46,7 @@ const currentYear = new Date().getFullYear()
             <div class="foot-item">
                 <h1 class="barlow-condensed-bold -mb-3">Pages</h1>
                 <div>
-                    <Link href="/past-winners" class="links">Past Winners</Link>
+                    <Link href="/pastwinners" class="links">Past Winners</Link>
                     <Link href="/" class="links">Home</Link>
                     <Link href="/competitions" class="links">Competitions</Link>
                     <Link href="/terms" class="links">Terms and Conditions</Link>

@@ -71,9 +71,9 @@ onMounted(() => {
             <h1 class="text-xl sm:text-2xl blw-semibold text-[var(--echo-dark-400)] text-center mt-5">Winners of the {{ competition.title }}.</h1>
             <div class="sm:grid grid-cols-1 gap-4 mb-5 mt-5">
 
-              <WinnersCard :name="'🥇 '+competition.winner" :picture="competition.winner_pic"  />
-              <WinnersCard :name="'🥈 '+competition.first_runner" :picture="first_runner_pic"  />
-              <WinnersCard :name="'🥉 '+competition.second_runner" :picture="competition.second_runner_pic"  />
+              <WinnersCard :name="competition.winner" :picture="competition.winner_pic" position="Winner" emoji="🥇" />
+              <WinnersCard :name="competition.first_runner" :picture="competition.first_runner_pic" position="1st Runner Up" emoji="🥈" />
+              <WinnersCard :name="competition.second_runner" :picture="competition.second_runner_pic" position="2nd Runner Up" emoji="🥉" />
 
             </div>
           </template>

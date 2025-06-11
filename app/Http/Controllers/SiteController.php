@@ -35,11 +35,11 @@ class SiteController extends Controller
             'competitions' => $competitions,
             'ogMeta' => [
                 'title' => 'Home',
-                'description' => "We're building a stage for Nigeria's boldest voices. EchoWords is a platform where writers and spoken word artists compete, connect, and get recognized. Wether you're seasoned or starting out, your voice deserves to be heard.",
                 'image' => asset('/assets/social.png'),
             ],
         ]);
     }
+
 
 
     public function competitions()
@@ -58,11 +58,15 @@ class SiteController extends Controller
     }
 
 
+
     public function competition($slug)
     {
         $competition = Competition::where('slug', $slug)
             ->with(['contestants' => function ($query) {
-                $query->orderByDesc('votes')->take(30);
+                $query->where('deleted', 0)
+                      ->orderByDesc('votes')
+                      ->orderByDesc('created_at')
+                      ->take(30);
             }])
             ->firstOrFail();
 
@@ -78,6 +82,7 @@ class SiteController extends Controller
             ],
         ]);
     }
+
 
 
     public function join($slug)
@@ -96,10 +101,12 @@ class SiteController extends Controller
                 ],
             ]);
         } else {
-            return redirect()->route('site.competition', $competition->slug)->with('error',"Registration is closed or competition has ended.");
+            return redirect()->route('site.competition', $competition->slug)
+                ->with('error',"Registration is closed or competition has ended.");
         } 
     }
 
+    
 
     public function storeContestant($slug, Request $request)
     {
@@ -114,9 +121,12 @@ class SiteController extends Controller
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'slug' => 'required',
-                'age' => 'nullable|integer|min:1',
-                'location' => 'required|string|max:255',
-                'occupation' => 'required|string|max:255',
+                'email' => 'required|string|max:255',
+                'phone' => 'required|string|max:255',
+                'insta' => 'required|string|max:255',
+                //'age' => 'nullable|integer|min:1',
+                //'location' => 'required|string|max:255',
+                //'occupation' => 'required|string|max:255',
                 'title_of_piece' => 'required|string|max:255',
                 'writing_experience' => 'required|string|max:255',
                 'discovery_story' => 'required|string',
@@ -126,9 +136,12 @@ class SiteController extends Controller
                 //'picture_path' => 'required|image|mimes:jpg,jpeg,png|max:3072', // Max 3MB
             ], [], [ // ← this third array is for custom attribute names
                 'name' => 'Name',
-                'age' => 'Age',
-                'location' => 'Location',
-                'occupation' => 'Occupation',
+                'email' => 'Email',
+                'phone' => 'Telephone No',
+                'insta' => 'Instagram Handle',
+                //'age' => 'Age',
+                //'location' => 'Location',
+                //'occupation' => 'Occupation',
                 'title_of_piece' => 'Title of Your Piece',
                 'writing_experience' => 'Writing Experience',
                 'discovery_story' => 'Story of How You Discovered Writing',
@@ -184,6 +197,7 @@ class SiteController extends Controller
     }
 
 
+
     public function contestants(Request $request, $slug)
     {
         $competition = Competition::where('slug', $slug)->firstOrFail()->makeHidden($this->hiddenFields);
@@ -192,12 +206,16 @@ class SiteController extends Controller
         $search = $request->input('search');
 
         // Base query for contestants
-        $query = $competition->contestants()->where('deleted', 0)->orderByDesc('votes');
-
-        if ($search) {
-            $query->where('name', 'like', "%{$search}%")
-                ->orWhere('title_of_piece', 'like', "%{$search}%");
-        }
+        $query = $competition->contestants()
+            ->where('deleted', 0)
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($q2) use ($search) {
+                    $q2->where('name', 'like', "%{$search}%")
+                    ->orWhere('title_of_piece', 'like', "%{$search}%");
+                });
+            })
+            ->orderByDesc('votes')
+            ->orderByDesc('created_at');
 
         $contestants = $query->paginate(30)->withQueryString(); // 30 per page
 
@@ -221,6 +239,10 @@ class SiteController extends Controller
 
     public function contestant(Competition $competition, Contestant $contestant)
     {
+        if ($contestant->deleted == 1) {
+            abort(404);
+        }
+
         if ($competition->registration_active == 0 && $competition->voting_active == 1) {
             return Inertia::render('Contestant', [
                 'contestant' => $contestant,
@@ -241,6 +263,7 @@ class SiteController extends Controller
             return redirect()->route('site.competition', $competition->slug)->with('error', 'Voting is disabled for this competition!');
         }
     }
+
 
 
     public function addVotes(Request $request, Competition $competition, Contestant $contestant)
@@ -264,7 +287,25 @@ class SiteController extends Controller
         }
     }
 
+
+
+    public function pastWinners()
+    {
+        $competitions = Competition::where('active', 0)
+            ->where('registration_active', 0)
+            ->orderBy('created_at', 'desc')->paginate(1);
+
+        return Inertia::render('PastWinners', [
+            'competitions' => $competitions,
+            'ogMeta' => [
+                'title' => 'Past Winners',
+                'image' => asset('/assets/social.png'),
+            ],
+        ]);
+    }
+
     
+
     public function latest()
     {
         // Get the latest competition (or null if none exists)
