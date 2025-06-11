@@ -149,11 +149,10 @@ class SiteController extends Controller
                 'picture_path' => 'Profile Picture',
             ]);
 
-            // Initialize image library
-            $manager = new ImageManager(new Driver());
-
             // Store video
             if ($request->hasFile('video_path')) {
+                // Initialize image library
+                $manager = new ImageManager(new Driver());
                 $video = $request->file('video_path');
                 $videoName = Str::random(10) . '.' . $video->getClientOriginalExtension();
                 $videoPath = "contestants/videos/{$competition->slug}/{$videoName}";
@@ -162,6 +161,9 @@ class SiteController extends Controller
             }
 
             if ($request->hasFile('picture_path')) {
+                // Initialize image library
+                $manager = new ImageManager(new Driver());
+                
                 $uploadedPic = $request->file('picture_path');
 
                 // Read the image using Intervention Image
