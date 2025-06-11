@@ -76,7 +76,7 @@ class SiteController extends Controller
             'ogMeta' => [
                 'title' => $competition->title,
                 'description' => $competition->description,
-                'image' => Storage::disk('public')->exists($competition->cover)
+                'image' => $competition->cover && Storage::disk('public')->exists($competition->cover)
                     ? asset('storage/' . $competition->cover)
                     : asset('/assets/default_cover.png'),
             ],
@@ -95,7 +95,7 @@ class SiteController extends Controller
                 'ogMeta' => [
                     'title' => 'Join the '. $competition->title,
                     'description' => $competition->description,
-                    'image' => Storage::disk('public')->exists($competition->cover)
+                    'image' => $competition->cover && Storage::disk('public')->exists($competition->cover)
                         ? asset('storage/' . $competition->cover)
                         : asset('/assets/default_cover.png'),
                 ],
@@ -228,7 +228,7 @@ class SiteController extends Controller
             'ogMeta' => [
                 'title' => 'Contestants: '. $competition->title,
                 'description' => $competition->description,
-                'image' => Storage::disk('public')->exists($competition->cover)
+                'image' => $competition->cover && Storage::disk('public')->exists($competition->cover)
                     ? asset('storage/' . $competition->cover)
                     : asset('/assets/default_cover.png'),
             ],
@@ -254,7 +254,7 @@ class SiteController extends Controller
                 'ogMeta' => [
                     'title' => 'Vote for '. $contestant->name,
                     'description' => "Cast your vote for ".$contestant->name."'s powerful piece in the ".$competition->title,
-                    'image' => Storage::disk('public')->exists($contestant->picture_path)
+                    'image' => $contestant->picture_path && Storage::disk('public')->exists($contestant->picture_path)
                         ? asset('storage/' . $competition->picture_path)
                         : asset('/assets/default_contestant.png'),
                 ],

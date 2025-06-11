@@ -83,7 +83,6 @@ const breadcumb = [
 
             <div class="md:flex items-start justify-center">
                 <video
-                    v-if="contestant.video_path"
                     :src="contestant.video_path ? `/storage/${contestant.video_path}` : '/assets/default_video.webm'"
                     controls
                     id="video"
@@ -145,12 +144,12 @@ const breadcumb = [
                             <p>{{ contestant.title_of_piece }}</p>
                         </div>
 
-                        <div class="contestant-info">
+                        <div class="contestant-info hidden">
                             <h1>Location</h1>
                             <p>{{ contestant.location }}</p>
                         </div>
 
-                        <div class="contestant-info">
+                        <div class="contestant-info hidden">
                             <h1>Occupation</h1>
                             <p>{{ contestant.occupation }}</p>
                         </div>
@@ -163,6 +162,11 @@ const breadcumb = [
                         <div class="contestant-info">
                             <h1>How did they discovered their writing talent?</h1>
                             <p class="whitespace-pre-line">{{ contestant.discovery_story }}</p>
+                        </div>
+
+                        <div class="contestant-info">
+                            <h1>Instagram Handle</h1>
+                            <p class="whitespace-pre-line">{{ contestant.insta }}</p>
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,7 @@ class CreateContestantsTable extends Migration
             $table->string('slug');
             $table->integer('votes')->default(0);
             $table->integer('age')->nullable();
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->string('occupation')->nullable();
             $table->string('title_of_piece');
             $table->string('writing_experience');

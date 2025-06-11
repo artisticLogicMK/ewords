@@ -195,7 +195,7 @@ const breadcumb = [
                     <InputError :message="form.errors.discovery_story" />
                 </div>
 
-                <div class="mb-5 _opacity-50 _pointer-events-none">
+                <div class="mb-5 opacity-50 pointer-events-none">
                     <Label :required="true">
                         <template #description>Max file size of 50MB</template>
                         Upload Spoken Word Video (Max 3 min, mp4/mov)
@@ -208,7 +208,7 @@ const breadcumb = [
                         </p>
                 </div>
 
-                <div class="mb-5 _opacity-50 _pointer-events-none">
+                <div class="mb-5 opacity-50 pointer-events-none">
                     <Label :required="true">
                         <template #description>Max file size of 3MB</template>
                         Upload Picture (jpg/png)
