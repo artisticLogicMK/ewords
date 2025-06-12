@@ -31,7 +31,6 @@ createInertiaApp({
         createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .component('OpenGraph', OpenGraph)
             .mount(el);
     },
     progress: {

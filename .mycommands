@@ -1,1 +1,5 @@
-public_html]$ ln -s $(pwd)/storage/app/public $(pwd)/public/storage
+cd domains/echowords.org/public_html
+
+cd public
+rm storage
+ln -s $(pwd)/storage/app/public $(pwd)/public/storage
