@@ -29,7 +29,7 @@ onMounted(() => {
 
 <template>
     
-    <Head :title="competition.title" />
+    <Head :title="`Join the ${competition.title}`" />
 
     <AppLayout>
 

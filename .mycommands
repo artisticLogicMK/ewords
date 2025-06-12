@@ -2,4 +2,7 @@ cd domains/echowords.org/public_html
 
 cd public
 rm storage
+cd ..
 ln -s $(pwd)/storage/app/public $(pwd)/public/storage
+
+ssh -p 65002 u334037687@82.25.113.34

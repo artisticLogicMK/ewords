@@ -34,7 +34,7 @@ class SiteController extends Controller
         return Inertia::render('Index', [
             'competitions' => $competitions,
             'ogMeta' => [
-                'title' => 'Home',
+                'title' => 'Home - ' . config('app.fullname'),
                 'image' => asset('/assets/social.png'),
             ],
         ]);
@@ -51,7 +51,7 @@ class SiteController extends Controller
         return Inertia::render('Competitions', [
             'competitions' => $competitions,
             'ogMeta' => [
-                'title' => 'Competitions',
+                'title' => 'Competitions - ' . config('app.fullname'),
                 'image' => asset('/assets/social.png'),
             ],
         ]);
@@ -74,7 +74,7 @@ class SiteController extends Controller
             'competition' => $competition,
             'contestants' => $competition->contestants,
             'ogMeta' => [
-                'title' => $competition->title,
+                'title' => 'Join the ' . $competition->title .' - '. config('app.fullname'),
                 'description' => $competition->description,
                 'image' => $competition->cover && Storage::disk('public')->exists($competition->cover)
                     ? asset('storage/' . $competition->cover)
@@ -93,7 +93,7 @@ class SiteController extends Controller
             return Inertia::render('JoinCompetition', [
                 'competition' => $competition,
                 'ogMeta' => [
-                    'title' => 'Join the '. $competition->title,
+                    'title' => 'Join the '. $competition->title .' - '. config('app.fullname'),
                     'description' => $competition->description,
                     'image' => $competition->cover && Storage::disk('public')->exists($competition->cover)
                         ? asset('storage/' . $competition->cover)
@@ -228,7 +228,7 @@ class SiteController extends Controller
                 'search' => $search,
             ],
             'ogMeta' => [
-                'title' => 'Contestants: '. $competition->title,
+                'title' => 'Contestants: '. $competition->title .' - '. config('app.fullname'),
                 'description' => $competition->description,
                 'image' => $competition->cover && Storage::disk('public')->exists($competition->cover)
                     ? asset('storage/' . $competition->cover)
@@ -254,7 +254,7 @@ class SiteController extends Controller
                     'contestant' => $contestant->slug,
                 ]),
                 'ogMeta' => [
-                    'title' => 'Vote for '. $contestant->name,
+                    'title' => 'Vote for '. $contestant->name .' - '. config('app.fullname'),
                     'description' => "Cast your vote for ".$contestant->name."'s powerful piece in the ".$competition->title,
                     'image' => $contestant->picture_path && Storage::disk('public')->exists($contestant->picture_path)
                         ? asset('storage/' . $competition->picture_path)
@@ -300,7 +300,7 @@ class SiteController extends Controller
         return Inertia::render('PastWinners', [
             'competitions' => $competitions,
             'ogMeta' => [
-                'title' => 'Past Winners',
+                'title' => 'Past Winners - ' . config('app.fullname'),
                 'image' => asset('/assets/social.png'),
             ],
         ]);
