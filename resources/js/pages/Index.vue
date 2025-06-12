@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted, provide } from 'vue'
+import { Head } from '@inertiajs/vue3'
 import initScrollAnimations from '@/lib/scrollAnimations'
 
 import AppLayout from '@/layouts/AppLayout.vue'
@@ -19,6 +20,8 @@ onMounted(() => {
 </script>
 
 <template>
+
+    <Head title="Home" />
  
     <AppLayout>
 

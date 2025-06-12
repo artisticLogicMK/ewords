@@ -1,0 +1,1 @@
+public_html]$ ln -s $(pwd)/storage/app/public $(pwd)/public/storage
