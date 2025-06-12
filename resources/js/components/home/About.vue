@@ -8,7 +8,7 @@
 
         <div class="shrink-0 w-50 h-50 sm:w-60 sm:h-60 mx-auto flex items-center justify-center relative">
             <div class="absolute top-0 left-0 w-full h-full bg-radial from-sky-600 to-[#000508] rounded-full scale-in"></div>
-            <img src="/assets/goldhand.png" class="relative w-full rotate-in" />
+            <img src="/assets/goldhand.webp" class="relative w-full rotate-in" />
         </div>
     </section>
 </template>

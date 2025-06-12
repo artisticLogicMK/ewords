@@ -132,8 +132,8 @@ class SiteController extends Controller
                 'discovery_story' => 'required|string',
                 'video_path' => 'nullable|file|mimes:mp4,mov|max:51200', // Max ~50MB
                 'picture_path' => 'nullable|image|mimes:jpg,jpeg,png|max:3072', // Max 3MB
-                //'video_path' => 'required|file|mimes:mp4,mov|max:51200', // Max ~50MB
-                //'picture_path' => 'required|image|mimes:jpg,jpeg,png|max:3072', // Max 3MB
+                'video_path' => 'required|file|mimes:mp4,mov|max:51200', // Max ~50MB
+                'picture_path' => 'required|image|mimes:jpg,jpeg,png|max:3072', // Max 3MB
             ], [], [ // ← this third array is for custom attribute names
                 'name' => 'Name',
                 'email' => 'Email',

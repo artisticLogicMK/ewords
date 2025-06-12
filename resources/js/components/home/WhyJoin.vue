@@ -6,7 +6,7 @@ import EmojiSupport from '@/components/EmojiSupport.vue'
     <section class="why-enter max-w-4xl mx-auto md:flex items-stretch justify-center px-4 sm:px-6">
         <div class="why-cards">
             <div class="imgcon">
-                <img src="/assets/why.png" class="slide-up">
+                <img src="/assets/why.webp" class="slide-up">
             </div>
 
             <div class="content">
@@ -38,7 +38,7 @@ import EmojiSupport from '@/components/EmojiSupport.vue'
 
         <div class="why-cards">
             <div class="imgcon">
-                <img src="/assets/how.png" class="slide-up">
+                <img src="/assets/how.webp" class="slide-up">
             </div>
 
             <div class="content">

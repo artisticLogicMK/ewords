@@ -12,7 +12,7 @@ const competition = inject('competition')
 
         <div class="relative max-w-6xl mx-auto overflow-hidden">
             <div class="absolute bottom-0 left-0 w-full h-full text-end herodown">
-                <img src="/assets/handmic.png" class="absolute opacity-20 md:opacity-30 lg:opacity-100 bottom-0 right-0 inline-block w-[36rem]" />
+                <img src="/assets/handmic.webp" class="absolute opacity-20 md:opacity-30 lg:opacity-100 bottom-0 right-0 inline-block w-[36rem]" />
             </div>
 
             <div class="relative">

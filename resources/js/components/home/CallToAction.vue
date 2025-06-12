@@ -9,8 +9,8 @@ import { Link } from '@inertiajs/vue3'
 
         <div class="absolute top-0 w-full h-full">
             <div class="action-imgs relative overflow-hidden w-full h-full max-w-6xl mx-auto flex justify-between items-end opacity-25 md:opacity-100">
-                <img src="/assets/to-action-girl.png" class="w-36 sm:w-48 -translate-x-1/3 sm:-translate-x-0 fade-in" />
-                <img src="/assets/to-action-boy.png" class="w-36 sm:w-48 translate-x-1/3 sm:translate-x-0 fade-in" />
+                <img src="/assets/to-action-girl.webp" class="w-36 sm:w-48 -translate-x-1/3 sm:-translate-x-0 fade-in" />
+                <img src="/assets/to-action-boy.webp" class="w-36 sm:w-48 translate-x-1/3 sm:translate-x-0 fade-in" />
             </div>
         </div>
 
