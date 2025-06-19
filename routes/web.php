@@ -16,6 +16,7 @@ Route::get('/competitions/{slug}/contestants', [SiteController::class, 'contesta
 Route::post('/competitions/{slug}/storeContestant', [SiteController::class, 'storeContestant'])->name('site.storeContestant');
 Route::get('/competitions/{competition:slug}/contestants/{contestant:slug}', [SiteController::class, 'contestant'])->name('site.contestant');
 Route::post('/competitions/{competition:slug}/contestants/{contestant:slug}/vote', [SiteController::class, 'addVotes'])->name('contestant.vote');
+Route::delete('/contestants/{contestant:slug}/destroy', [SiteController::class, 'destroy'])->name('contestant.destroy');
 
 
 
@@ -30,6 +31,8 @@ Route::post('/dashboard/store', [DashboardController::class, 'store'])->middlewa
 Route::get('/dashboard/{slug}', [DashboardController::class, 'show'])->middleware(['auth'])->name('competition.show');
 Route::post('/dashboard/update/{competition}', [DashboardController::class, 'update'])
     ->name('competition.update');
+Route::post('/dashboard/second/{competition}', [DashboardController::class, 'secondStage'])
+    ->name('competition.secondStage');
 Route::delete('/dashboard/{competition}', [DashboardController::class, 'destroy'])->name('competition.destroy');
 
 require __DIR__.'/settings.php';

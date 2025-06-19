@@ -219,7 +219,7 @@ const breadcumb = [
 
                 <div class="flex space-x-2 mb-5">
                     <Checkbox v-model="termsChecked" class="translate-y-1" />
-                    <p @click="termsChecked = !termsChecked" class="text-sm text-neutral-700">
+                    <p @click="termsChecked = !termsChecked" class="text-sm text-neutral-700 cursor-pointer">
                         I agree to the <Link href="/ter" class="text-blue-600">Terms & Conditions</Link> and give {{ $page.props.name }} permission to use my submitted materials for contest and promotional purposes.
                     </p>
                 </div>

@@ -34,40 +34,75 @@ const form = useForm({
   second_voting_ends: competition.second_voting_ends
 })
 
+
 // file input handler
 function handleFileChange(e, field) {
   form[field] = e.target.files[0]
 }
 
+
 function submit() {
-  form.post(route('competition.update', competition.slug), {
-    method: 'put',
-    preserveScroll: true,
-    forceFormData: true,
-    onSuccess: async () => {
-        await nextTick()
-        if (document.getElementById("flash")) document.getElementById("flash").scrollIntoView()
-    },
-  })
+    form.post(route('competition.update', competition.slug), {
+        method: 'put',
+        preserveScroll: true,
+        forceFormData: true,
+        onSuccess: async () => {
+            await nextTick()
+            if (document.getElementById("flash")) document.getElementById("flash").scrollIntoView()
+        },
+    })
 }
 
-function deleteCompetition(slug) {
-  if (confirm('Are you sure you want to delete this competition?')) {
-    router.delete(route('competition.destroy', slug), {
-      //preserveScroll: true,
-      onSuccess: () => {
-        // Optional: show a success toast or redirect
-        alert('Deleted')
-      },
+
+const secondForm = useForm({
+    limit: 30,
+    criteria: null
+})
+
+function secondStage() {
+    // Return confirm dialog to proceed
+    if (!confirm("Are you sure you want to take this competition to the second stage? This cant't be reversed!")) return
+
+    // Verify one more time with input dialog
+    if (prompt("Type 'yes' to continue.") !== 'yes') return
+        
+    secondForm.post(route('competition.secondStage', competition.slug), {
+        method: 'put',
+        preserveScroll: true,
+        onSuccess: async () => {
+            await nextTick()
+            if (document.getElementById("flash")) document.getElementById("flash").scrollIntoView()
+        },
     })
-  }
 }
+
+
+
+function deleteCompetition(slug) {
+    // Return confirm dialog to proceed
+    if (confirm('Are you sure you want to delete this competition?')) {
+
+        // Verify one more time with input dialog asking for title
+        if (prompt("Type title of competition.") !== competition.title) return
+
+        router.delete(route('competition.destroy', slug), {
+            //preserveScroll: true,
+            onSuccess: () => {
+                // Optional: show a success toast or redirect
+                alert('Deleted')
+            },
+        })
+    }
+}
+
+
 
 const toggles = [
     { name:'Competition is Ongoing', key:'active'},
     { name:'Registration Active', key:'registration_active'},
     { name:'Voting Active', key:'voting_active'},
 ]
+
 
 let competitionLink = ref('')
 
@@ -80,7 +115,7 @@ onMounted(() => {
     <Head :title="`${competition.title}:Dashboard`" />
 
     <DashboardLayout>
-        <div class="flex justify-end px-4 sm:px-6 py-2 border-b bdr">
+        <div class="flex justify-end px-4 sm:px-6 py-2 border-b bdr" style="display:none">
             <Link :href="`/competitions/${competition.slug}/contestants`" class="text-blue-600 text-sm border border-blue-600 px-3 py-1 rounded-md hover:text-white hover:bg-blue-600">View Competition Contestants.</Link>
         </div>
 
@@ -93,7 +128,7 @@ onMounted(() => {
 
             <p class="mb-4 note">
                 <span v-if="competition.stage === 'end'">This competition has ended</span>
-                <span v-else>This competition is in <strong>{{ competition.stage }} Stage.</strong> <a href="#second" class="text-blue-600">Set Second Stage.</a> <a v-if="false" href="#end" class="text-orange-600">End Competition.</a></span>
+                <span v-else>This competition is in <strong>{{ competition.stage }} Stage.</strong> <a v-if="competition.stage === '1st'" href="#second" class="text-blue-600">Set Second Stage.</a> <a v-if="false" href="#end" class="text-orange-600">End Competition.</a></span>
             </p>
             
             
@@ -212,17 +247,27 @@ onMounted(() => {
                 
             </form>
 
-            <div id="second" class="dbox px-3 sm:px-4 py-4 mb-8">
-                <form>
+
+
+            <div v-if="competition.stage === '1st'" id="second" class="dbox px-3 sm:px-4 py-4 mb-8">
+                <form @submit.prevent="secondStage">
                     <h1 class="text-neutral-600 text-xl font-semibold mb-3">Determine Second Stage</h1>
                     <div class="mb-3">
                         <Label>Number of Participant to Carry</Label>
-                        <Input type="number" placeholder="30" required />
+                        <Input type="number" v-model="secondForm.limit" placeholder="30" required />
                     </div>
-                    <p class="mb-3 note">Top 30 of the participants will be taken ordered by number of votes and time registered, and a new vote will commence afresh. The rest of the participants will be deleted.</p>
-                    <button class="btns btn-grad" @click.prevent>Start Second Stage!</button>
+
+                    <div class="mb-3">
+                        <Label>Minimum of Votes</Label>
+                        <Input type="number" v-model="secondForm.criteria" placeholder="00" required />
+                    </div>
+
+                    <p class="mb-3 note">Top <strong>{{ secondForm.limit }}</strong> of the participants will be taken that meets the required minimum of <strong>{{ secondForm.criteria }}</strong> votes, ordered by number of votes, and then time registered, and a new vote will commence afresh. The rest of the participants will be deleted. <span class="text-orange-600">This can't be reversed!</span></p>
+                    <button class="btns btn-grad">Start Second Stage!</button>
                 </form>
             </div>
+
+
 
             <button id="end" v-if="false" class="btns btns-sm bg-orange-600 block mt-8 mb-8">! End This Competition</button>
 

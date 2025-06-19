@@ -2,12 +2,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Competition;
+use App\Models\Contestant;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -42,6 +44,8 @@ class DashboardController extends Controller
     public function show($slug)
     {
         $competition = Competition::where('slug', $slug)->firstOrFail();
+
+        //$competition->update(['stage' => '1st']);
 
         return Inertia::render('dashboard/Competition', [
             'competition' => $competition,
@@ -152,6 +156,51 @@ class DashboardController extends Controller
         return redirect()->route('competition.show', $competition->slug)
             ->with('success', 'Competition updated!');
     }
+
+
+
+    public function secondStage(Request $request, Competition $competition)
+    {
+        $data = $request->validate([
+            'limit' => 'required|integer',
+            'criteria' => 'required|integer',
+        ]);
+
+        DB::transaction(function () use ($data, $competition) {
+            // Step 1: Get top contestants
+            $qualified = $competition->contestants()
+                ->where('votes', '>=', $data['criteria'])
+                ->orderByDesc('votes')
+                ->orderBy('created_at')
+                ->take($data['limit'])
+                ->get();
+
+            $qualifiedIds = $qualified->pluck('id');
+
+            // Step 2: Delete unqualified contestants and their files
+            $toDelete = $competition->contestants()->whereNotIn('id', $qualifiedIds)->get();
+
+            foreach ($toDelete as $contestant) {
+                if ($contestant->video_path) {
+                    Storage::disk('public')->delete($contestant->video_path);
+                }
+                if ($contestant->picture_path) {
+                    Storage::disk('public')->delete($contestant->picture_path);
+                }
+                $contestant->delete();
+            }
+
+            // Step 3: Reset votes of qualified contestants
+            Contestant::whereIn('id', $qualifiedIds)->update(['votes' => 0]);
+
+            // Step 4: Update competition stage
+            $competition->update(['stage' => '2nd']);
+        });
+
+        return back()->with('success', 'Second stage setup complete. Top contestants retained and votes reset.');
+    }
+
+
 
 
     public function destroy(Competition $competition)

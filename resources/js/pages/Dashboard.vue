@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3'
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
 import { PhUsersThree, PhCheck } from '@phosphor-icons/vue'
+import moment from 'moment-timezone'
 
 defineProps(['competitions'])
 </script>
@@ -19,13 +20,16 @@ defineProps(['competitions'])
                 </div>
 
                 <div class="dlist" v-for="(comp, i) in competitions.data" :key="comp.id">
-                    <p class="flex items-center">
-                        <span v-if="i === 0"><PhCheck class="text-green-500 text-xl mr-2" weight="bold" /></span>
-                        {{ comp.title }}
-                    </p>
+                    <div class="flex flex-col">
+                        <p class="flex items-center font-semibold mb-1">
+                            <span v-if="i === 0"><PhCheck class="text-green-500 text-xl mr-2" weight="bold" /></span>
+                            {{ comp.title }}
+                        </p>
+                        <p>Created: {{ moment(comp.created_at).format('D MMMM, YYYY') }}</p>
+                    </div>
                     <div class="btn">
                         <Link :href="`/dashboard/${comp.slug}`">Edit</Link>
-                        <Link :href="`/dashboard/${comp.slug}/paticipants`"><PhUsersThree /></Link>
+                        <Link :href="`/dashboard/${comp.slug}/paticipants`" style="display:none"><PhUsersThree /></Link>
                     </div>
                 </div>
                 

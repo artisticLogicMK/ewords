@@ -20,25 +20,25 @@ const currentYear = new Date().getFullYear()
 
             <div class="foot-item mb-5 sm:mb-0">
                 <h1 class="barlow-condensed-bold">Contact</h1>
-                <a href="mailto:support@echowords.com" target="_blank" class="list">
+                <a href="mailto:support@echowords.org" target="_blank" class="list">
                     <PhEnvelope />
                     <div>
                         <h2>Email</h2>
-                        <p>support@echowords.com</p>
+                        <p>support@echowords.org</p>
                     </div>
                 </a>
-                <a href="tel:234XXXXXXXXXX" target="_blank" class="list">
+                <a href="tel:2349013931787" target="_blank" class="list">
                     <PhPhone />
                     <div>
                         <h2>Phone</h2>
-                        <p>+234XXXXXXXXXX</p>
+                        <p>+2349013931787</p>
                     </div>
                 </a>
-                <a href="https://wa.me/" target="_blank" class="list">
+                <a href="https://wa.me/c/2349013931787" target="_blank" class="list">
                     <PhWhatsappLogo />
                     <div>
                         <h2>WhatsApp</h2>
-                        <p>+234XXXXXXXXXX</p>
+                        <p>+2349013931787</p>
                     </div>
                 </a>
             </div>
@@ -50,7 +50,7 @@ const currentYear = new Date().getFullYear()
                     <Link href="/" class="links">Home</Link>
                     <Link href="/competitions" class="links">Competitions</Link>
                     <Link href="/terms" class="links">Terms and Conditions</Link>
-                    <Link href="/report" class="links">Report a Contestant</Link>
+                    <a href="mailto:support@echowords.org" target="_blank" class="links">Report a Contestant</a>
                 </div>
             </div>
 
@@ -58,7 +58,9 @@ const currentYear = new Date().getFullYear()
 
         <div class="w-full max-w-4xl mx-auto text-white/90 text-xs sm:text-sm flex items-center justify-between border-t border-white/10 py-3">
             <p>&copy;{{currentYear}}&nbsp;{{ $page.props.name }}.</p>
-            <a href="" class="text-end"><span class="text-sky-400">Developed by</span> ArtisticLogic</a>
+            <a href="https://wa.me/c/2349050518689" target="_blank" class="text-end">
+                <span class="text-sky-400">Developed by</span> ArtisticLogic
+            </a>
         </div>
 
         <div class="w-full max-w-4xl mx-auto text-white/90 text-sm border-t border-white/10 py-3">

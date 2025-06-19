@@ -37,7 +37,7 @@ import { Head, Link } from '@inertiajs/vue3';
     @apply border border-neutral-200 rounded-lg
 }
 .dbox .dlist {
-    @apply w-full flex items-center justify-between text-sm font-semibold px-4 py-2 hover:bg-neutral-100 border-b border-neutral-200 last:border-b-transparent
+    @apply w-full flex items-center justify-between text-sm px-4 py-2 hover:bg-neutral-100 border-b border-neutral-200 last:border-b-transparent
 }
 .dbox .dlist p {
     @apply text-[var(--echo-dark-400)]/75

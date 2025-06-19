@@ -1,7 +1,5 @@
 <script setup>
 import { Link, router, Head } from '@inertiajs/vue3'
-import { onMounted } from 'vue'
-import initScrollAnimations from '@/lib/scrollAnimations'
 import AppLayout from '@/layouts/AppLayout.vue'
 import PagesHeader from '@/components/PagesHeader.vue'
 import ContestantsCard from '@/components/ContestantsCard.vue'
@@ -21,10 +19,6 @@ const breadcumb = [
     { name: "Competitions", url: "/competitions" },
     { name: competition.title, url: `/competitions/${competition.slug}` }
 ]
-
-onMounted(() => {
-    initScrollAnimations()
-})
 </script>
 
 <template>

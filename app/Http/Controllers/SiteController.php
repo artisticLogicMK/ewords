@@ -217,9 +217,14 @@ class SiteController extends Controller
                 });
             })
             ->orderByDesc('votes')
-            ->orderByDesc('created_at');
+            ->orderBy('created_at');
 
         $contestants = $query->paginate(30)->withQueryString(); // 30 per page
+
+        // If no contestants, redirect to the competition page
+        if ($contestants->total() === 0) {
+            return redirect()->route('site.competition', $competition->slug);
+        }
 
         return Inertia::render('Contestants', [
             'competition' => $competition,
@@ -287,6 +292,22 @@ class SiteController extends Controller
         } else {
             abort(403, 'Voting is not currently active.');
         }
+    }
+
+
+    public function destroy(Contestant $contestant)
+    {
+        // Delete contestant files
+        if ($contestant->video_path) {
+            Storage::disk('public')->delete($contestant->video_path);
+        }
+        if ($contestant->picture_path) {
+            Storage::disk('public')->delete($contestant->picture_path);
+        }
+
+        $contestant->delete();
+
+        return back()->with('success', 'Contestant deleted.');
     }
 
 
