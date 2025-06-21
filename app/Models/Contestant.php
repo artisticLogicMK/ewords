@@ -19,4 +19,9 @@ class Contestant extends Model
     {
         return $this->belongsTo(Competition::class);
     }
+
+    public function voteTransactions()
+    {
+        return $this->hasMany(VoteTransaction::class);
+    }
 }

@@ -5,13 +5,18 @@ import AppLayout from '@/layouts/AppLayout.vue'
 import PagesHeader from '@/components/PagesHeader.vue'
 import Countdowns from '@/components/Countdowns.vue'
 import { PhFacebookLogo, PhWhatsappLogo, PhLinkedinLogo, PhLink, PhXLogo } from '@phosphor-icons/vue'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import Button from '@/components/ui/button/Button.vue'
+import { Dialog, DialogContent, DialogTrigger, DialogClose } from '@/components/ui/dialog'
+
 
 const { competition, contestant, shareUrl } = defineProps(['competition', 'contestant', 'shareUrl'])
 
 const votes = ref(contestant.votes)
 
 const copied = ref(false)
-const votesSel = ref({ value: 10, price: '₦500' })
+const votesSel = ref({ value: 10, price: '₦500', amount: 500 })
 
 function copyToClipboard() {
   navigator.clipboard.writeText(shareUrl).then(() => {
@@ -24,31 +29,62 @@ function copyToClipboard() {
   })
 }
 
-function pay() {
-  router.post(
-    route('contestant.vote', {
+async function pay() {
+  payerDetails.value.load = true
+
+  try {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    const response = await fetch(route('contestant.vote', {
       competition: competition.slug,
       contestant: contestant.slug,
-    }),
-    { votes: votesSel.value.value },
-    {
-      onSuccess: () => {
-        votes.value += votesSel.value.value
+    }), {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfToken,
+        'Accept': 'application/json',
       },
-      onError: (errors) => {
-        console.error(errors)
-      }
+      body: JSON.stringify({
+        votes: votesSel.value.value,
+        amount: votesSel.value.amount * 100,
+        email: payerDetails.value.email,
+        phone: payerDetails.value.phone,
+        prev_votes: contestant.votes,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.redirect_url) {
+      window.location.href = data.redirect_url;
+    } else {
+      alert('Could not initiate payment. Try again.');
+      console.error(data);
     }
-  )
+  } catch (error) {
+    console.error('Payment error:', error);
+    alert('Something went wrong while trying to pay.');
+  } finally {
+    payerDetails.value.load = false;
+    document.querySelector("#xDialg").click();
+  }
 }
 
+
 const voteOptions = [
-    { value: 10, price: '₦500' },
-    { value: 50, price: '₦2,500' },
-    { value: 100, price: '₦5,000' },
-    { value: 500, price: '₦25,000' },
-    { value: 1000, price: '₦50,000' },
+    { value: 10, price: '₦500', amount: 500 },
+    { value: 50, price: '₦2,500', amount: 2500 },
+    { value: 100, price: '₦5,000', amount: 5000 },
+    { value: 500, price: '₦25,000', amount: 25000 },
+    { value: 1000, price: '₦50,000', amount: 50000 }
 ]
+
+const payerDetails = ref({
+    email: 'mk.artisticlogic@gmail.com',
+    phone: '0801389467',
+    load: false
+})
 
 const breadcumb = [
     { name: "Home", url: "/" },
@@ -120,7 +156,8 @@ const breadcumb = [
                     </div>
 
 
-                    <form @submit.prevent="pay" class="mb-7">
+
+                    <div class="mb-7">
                         <p class="text-sm text-neutral-600 mb-2">Desired number of votes to give</p>
                         <select v-model="votesSel" class="input text-lg max-w-[250px] mb-4" style="font-size: 1.125rem;">
                             <option v-for="opt in voteOptions" :key="opt.value" :value="opt">
@@ -128,10 +165,39 @@ const breadcumb = [
                             </option>
                         </select>
 
-                        <button class="btns btn-grad">
-                            Pay {{ votesSel.price }} For {{ votesSel.value }} Votes
-                        </button>
-                    </form>
+                        <Dialog>
+                            <DialogTrigger as-child>
+                                <button class="btns btn-grad">
+                                    Pay {{ votesSel.price }} For {{ votesSel.value }} Votes
+                                </button>
+                            </DialogTrigger>
+                            <DialogContent class="bg-white">
+                                <h1 class="text-xl text-neutral-700 font-semibold mb-2">Enter your details to proceed</h1>
+
+                                <form @submit.prevent="pay">
+                                    <div class="mb-3">
+                                        <Label required="true">Email</Label>
+                                        <Input type="email" v-model="payerDetails.email" placeholder="mail.example.com" required />
+                                    </div>
+
+                                    <div class="mb-5">
+                                        <Label required="true">Phone No</Label>
+                                        <Input type="tel" v-model="payerDetails.phone" placeholder="+2346596058000" required />
+                                    </div>
+
+                                    <div class="flex justify-between space-x-3">
+                                        <Button :disabled="payerDetails.load" :loading="payerDetails.load">
+                                            Pay {{ votesSel.price }} For {{ votesSel.value }} Votes
+                                        </Button>
+                                        <DialogClose>
+                                            <Button id="xDialg" @click.prevent variant="outline">Cancel</Button>
+                                        </DialogClose>
+                                    </div>
+                                </form>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
+
 
 
                     <div>

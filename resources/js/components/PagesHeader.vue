@@ -16,7 +16,7 @@ const isItActive = link => page.url.split('?')[0] === link.url
     <header class="relative w-full overflow-hidden">
 
       <div class="absolute top-0 left-0 w-full h-full bg-sky-800 elliptical-background bg-cover bg-center" :style="`background-image: url(${bgImage})`">
-        <div v-if="props.image" class="absolute top-0 left-0 w-full h-full bg-black/60"></div>
+        <div v-if="props.image" class="absolute top-0 left-0 w-full h-full bg-black/60 backdrop-blur-sm"></div>
       </div>
      
 

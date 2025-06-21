@@ -2,7 +2,6 @@ ssh -p 65002 u334037687@82.25.113.34
 #EchoWords4
 
 cd domains/echowords.org/public_html
-
 cd public
 rm storage
 cd ..

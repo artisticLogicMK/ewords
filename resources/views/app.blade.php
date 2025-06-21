@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
         <script>
@@ -43,6 +44,8 @@
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:image" content="{{ $page['props']['ogMeta']['image'] }}">
     @endif
+
+        <link rel="canonical" href="{{ url()->current() }}" />
 
         <link rel="icon" href="/favicon.ico" sizes="any">
 

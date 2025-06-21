@@ -18,6 +18,8 @@ Route::get('/competitions/{competition:slug}/contestants/{contestant:slug}', [Si
 Route::post('/competitions/{competition:slug}/contestants/{contestant:slug}/vote', [SiteController::class, 'addVotes'])->name('contestant.vote');
 Route::delete('/contestants/{contestant:slug}/destroy', [SiteController::class, 'destroy'])->name('contestant.destroy');
 
+Route::get('/paystack/verify', [SiteController::class, 'verifyPaystack'])->name('paystack.verify');
+
 
 
 
@@ -35,5 +37,6 @@ Route::post('/dashboard/second/{competition}', [DashboardController::class, 'sec
     ->name('competition.secondStage');
 Route::delete('/dashboard/{competition}', [DashboardController::class, 'destroy'])->name('competition.destroy');
 
+require __DIR__.'/sitemap.php';
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

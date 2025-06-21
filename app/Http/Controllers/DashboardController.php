@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    // 📄 Displays a paginated list of competitions on the dashboard
     public function index()
     {
         $competitions = Competition::orderBy('created_at', 'desc')->paginate(20);
@@ -22,12 +23,21 @@ class DashboardController extends Controller
         ]);
     }
 
+
+
+
+    
+    // 📄 Returns the view for creating a new competition
     public function create()
     {
         return Inertia::render('dashboard/New');
     }
 
 
+
+
+
+    // 💾 Stores a new competition after validating input
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -40,12 +50,14 @@ class DashboardController extends Controller
         return redirect()->route('competition.show', $competition->slug);
     }
 
-    
+
+
+
+
+    // 📄 Shows details of a specific competition by slug
     public function show($slug)
     {
         $competition = Competition::where('slug', $slug)->firstOrFail();
-
-        //$competition->update(['stage' => '1st']);
 
         return Inertia::render('dashboard/Competition', [
             'competition' => $competition,
@@ -53,6 +65,10 @@ class DashboardController extends Controller
     }
 
 
+
+
+
+    // 🔄 Updates competition details, including file uploads and validations
     public function update(Request $request, Competition $competition)
     {
         $data = $request->validate([
@@ -60,7 +76,7 @@ class DashboardController extends Controller
             'active' => 'required',
             'voting_active' => 'required',
             'registration_active' => 'required',
-            'cover' => $request->hasFile('cover') ? 'image|max:2048' : 'nullable', // validate image file if uploaded
+            'cover' => $request->hasFile('cover') ? 'image|max:2048' : 'nullable',
             'description' => 'required|string|max:255',
             'content' => 'nullable|string|max:100000',
             'past_winners_content' => 'nullable|string|max:100000',
@@ -78,7 +94,7 @@ class DashboardController extends Controller
             'second_voting_ends' => 'nullable|date',
         ]);
 
-        // 🔒 Prevent multiple active competitions
+        // 🛡️ Prevent multiple active competitions at the same time
         if ($data['active'] == 1) {
             $otherActiveExists = Competition::where('active', 1)
                 ->where('id', '!=', $competition->id)
@@ -90,7 +106,7 @@ class DashboardController extends Controller
             }
         }
 
-        // 🔒 Prevent multiple active voting competitions
+        // 🛡️ Prevent multiple competitions with voting active at once
         if ($data['voting_active'] == 1) {
             $otherActiveExists = Competition::where('voting_active', 1)
                 ->where('id', '!=', $competition->id)
@@ -102,7 +118,7 @@ class DashboardController extends Controller
             }
         }
 
-        // 🔒 Prevent multiple open registrations
+        // 🛡️ Prevent multiple competitions open for registration at once
         if ($data['registration_active'] == 1) {
             $otherActiveExists = Competition::where('registration_active', 1)
                 ->where('id', '!=', $competition->id)
@@ -114,43 +130,40 @@ class DashboardController extends Controller
             }
         }
 
-
+        // 🖼️ Handle image uploads and resize them if necessary
         foreach (['cover', 'winner_pic', 'first_runner_pic', 'second_runner_pic'] as $field) {
             if ($request->hasFile($field)) {
-
                 $manager = new ImageManager(new Driver());
-
                 $folder = "competitions/{$competition->slug}";
-                
+
+                // Delete old file if it exists
                 if (!empty($competition->{$field}) && Storage::disk('public')->exists($competition->{$field})) {
                     Storage::disk('public')->delete($competition->{$field});
                 }
 
                 $uploadedFile = $request->file($field);
-
-                // Read the image using Intervention Image
                 $image = $manager->read($uploadedFile->getRealPath());
 
-                // Check if width exceeds 1200px, and resize if needed
+                // Resize if width exceeds 1200px while keeping aspect ratio
                 if ($image->width() > 1200) {
-                    // This automatically scales down if wider than 1200px and keeps aspect ratio
                     $image->scaleDown(width: 1200);
                 }
 
+                // Save the image as JPEG with compression
                 $jpegData = $image->toJpeg(75)->toString();
 
                 $filename = "{$field}_" . Str::random(10) . '.jpg';
                 $path = "{$folder}/{$filename}";
 
+                // Store image in public disk
                 Storage::disk('public')->put($path, (string) $jpegData);
-
-                // Save image path to data array
                 $data[$field] = $path;
             } else {
-                unset($data[$field]); // Don't overwrite if no new image was uploaded
+                unset($data[$field]); // Skip updating field if no new image
             }
         }
 
+        // ✅ Update competition with all validated and processed data
         $competition->update($data);
 
         return redirect()->route('competition.show', $competition->slug)
@@ -159,6 +172,9 @@ class DashboardController extends Controller
 
 
 
+
+
+    // 🚥 Moves competition to second stage and filters contestants
     public function secondStage(Request $request, Competition $competition)
     {
         $data = $request->validate([
@@ -167,7 +183,7 @@ class DashboardController extends Controller
         ]);
 
         DB::transaction(function () use ($data, $competition) {
-            // Step 1: Get top contestants
+            // 1️⃣ Select top contestants who meet the voting criteria
             $qualified = $competition->contestants()
                 ->where('votes', '>=', $data['criteria'])
                 ->orderByDesc('votes')
@@ -177,9 +193,8 @@ class DashboardController extends Controller
 
             $qualifiedIds = $qualified->pluck('id');
 
-            // Step 2: Delete unqualified contestants and their files
+            // 2️⃣ Delete contestants who didn't qualify, including their files
             $toDelete = $competition->contestants()->whereNotIn('id', $qualifiedIds)->get();
-
             foreach ($toDelete as $contestant) {
                 if ($contestant->video_path) {
                     Storage::disk('public')->delete($contestant->video_path);
@@ -190,10 +205,10 @@ class DashboardController extends Controller
                 $contestant->delete();
             }
 
-            // Step 3: Reset votes of qualified contestants
+            // 3️⃣ Reset votes for qualified contestants
             Contestant::whereIn('id', $qualifiedIds)->update(['votes' => 0]);
 
-            // Step 4: Update competition stage
+            // 4️⃣ Mark competition as second stage
             $competition->update(['stage' => '2nd']);
         });
 
@@ -203,20 +218,21 @@ class DashboardController extends Controller
 
 
 
+
+    // ❌ Deletes a competition and associated files
     public function destroy(Competition $competition)
     {
-        // Delete all files associated with competition
+        // Delete any uploaded media files associated with this competition
         foreach (['cover', 'winner_pic', 'first_runner_pic', 'second_runner_pic'] as $field) {
             if ($competition->{$field} && Storage::disk('public')->exists($competition->{$field})) {
                 Storage::disk('public')->delete($competition->{$field});
             }
         }
 
-        // Delete competition from db
+        // Remove competition from the database
         $competition->delete();
 
         return redirect()->route('competitions')->with('success', 'Competition deleted.');
     }
-
 }
 ?>
