@@ -29,7 +29,7 @@ function deleteContestant(slug) {
       <h1 class="text-base sm:text-lg font-bold text-[var(--echo-dark-400)] text-center">{{ contestant.name }}</h1>
       <p class="text-xs text-neutral-600/90 text-center mb-3">{{ contestant.title_of_piece }}</p>
 
-      <div v-if="contestant.votes > 0" class="text-red-500 text-xs font-semibold mb-1.5">{{ contestant.votes }} Votes</div>
+      <div v-if="contestant.votes > 0" class="text-red-500 text-xs font-semibold mb-1.5">{{ contestant.votes.toLocaleString() }} Votes</div>
       
       <Link
         :href="isVoting ? `/competitions/${competitionSlug}/contestants/${contestant.slug}` : ''"

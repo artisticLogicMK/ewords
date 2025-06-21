@@ -20,17 +20,6 @@
             })();
         </script>
 
-        {{-- Inline style to set the HTML background color based on our theme in app.css --}}
-        <style>
-            html {
-                background-color: #fff;
-            }
-
-            html.dark {
-                background-color: #fff;
-            }
-        </style>
-
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
         <meta name="description" content="We're building a stage for Nigeria's boldest voices. EchoWords is a platform where writers and spoken word artists compete, connect, and get recognized. Wether you're seasoned or starting out, your voice deserves to be heard."/>
@@ -44,6 +33,20 @@
         <meta name="twitter:card" content="summary_large_image">
         <meta name="twitter:image" content="{{ $page['props']['ogMeta']['image'] }}">
     @endif
+
+
+    @if(isset($page['props']['jsonLd']) && is_array($page['props']['jsonLd']))
+        @foreach($page['props']['jsonLd'] as $ld)
+            <script type="application/ld+json">
+                {!! json_encode($ld, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+            </script>
+        @endforeach
+    @elseif(isset($page['props']['jsonLd']))
+        <script type="application/ld+json">
+            {!! json_encode($page['props']['jsonLd'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) !!}
+        </script>
+    @endif
+
 
         <link rel="canonical" href="{{ url()->current() }}" />
 

@@ -26,6 +26,8 @@ Route::get('/paystack/verify', [SiteController::class, 'verifyPaystack'])->name(
 // Dashboard
 Route::get('dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('competitions');
 Route::get('/dashboard/new', [DashboardController::class, 'create'])->middleware(['auth'])->name('competition.create');
+Route::get('/dashboard/terms', [DashboardController::class, 'terms'])->middleware(['auth'])->name('terms.create');
+Route::post('/dashboard/terms/update', [DashboardController::class, 'updateTerms'])->middleware(['auth'])->name('terms.update');
 Route::get('/dashboard/password', function () {
     return Inertia::render('dashboard/Password');
 })->name('password');

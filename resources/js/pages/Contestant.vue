@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Link, router, Head } from '@inertiajs/vue3'
 import AppLayout from '@/layouts/AppLayout.vue'
 import PagesHeader from '@/components/PagesHeader.vue'
@@ -8,6 +8,7 @@ import { PhFacebookLogo, PhWhatsappLogo, PhLinkedinLogo, PhLink, PhXLogo } from 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Button from '@/components/ui/button/Button.vue'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Dialog, DialogContent, DialogTrigger, DialogClose } from '@/components/ui/dialog'
 
 
@@ -68,6 +69,15 @@ async function pay() {
   } finally {
     payerDetails.value.load = false;
     document.querySelector("#xDialg").click();
+
+    // Store details in local storage if option is selected
+    if (payerDetails.value.remember) {
+        localStorage.payerDetails = JSON.stringify({
+            email: payerDetails.value.email,
+            phone: payerDetails.value.phone,
+            remember: true
+        })
+    }
   }
 }
 
@@ -81,9 +91,18 @@ const voteOptions = [
 ]
 
 const payerDetails = ref({
-    email: 'mk.artisticlogic@gmail.com',
-    phone: '0801389467',
-    load: false
+    email: '',
+    phone: '',
+    load: false,
+    remember: false
+})
+
+onMounted(() => {
+    // Set phone/email pay details if saved
+    if (localStorage.payerDetails) {
+        const details = JSON.parse(localStorage.payerDetails)
+        payerDetails.value = { ...payerDetails.value, ...details }
+    }
 })
 
 const breadcumb = [
@@ -108,6 +127,7 @@ const breadcumb = [
             class="mb-20 scale-in"
             :image="contestant.picture_path"
             :picture="contestant.picture_path ? `/storage/${contestant.picture_path}` : '/assets/default_contestant.png'"
+            :alt="contestant.name"
         />
 
 
@@ -123,12 +143,13 @@ const breadcumb = [
                     controls
                     id="video"
                     class="w-full max-w-sm mx-auto rounded-lg md:mr-6 mb-5 md:mb-0"
+                    :title="`${contestant.name} Video`"
                 ></video>
 
 
                 <div class="grow">
                     <h1 class="text-xl sm:text-2xl text-neutral-700 font-semibold mb-5">{{ contestant.name }}</h1>
-                    <h1 class="text-2xl sm:text-3xl text-blue-500 font-bold mb-5">{{ votes }} Votes(s)</h1>
+                    <h1 class="text-2xl sm:text-3xl text-blue-500 font-bold mb-5">{{ votes.toLocaleString() }} Vote(s)</h1>
 
                     <div class="sharelinks flex flex-wrap gap-2 sm:gap-3 mb-6">
                         <button @click="copyToClipboard" class="relative" title="Copy Link">
@@ -172,7 +193,7 @@ const breadcumb = [
                                 </button>
                             </DialogTrigger>
                             <DialogContent class="bg-white">
-                                <h1 class="text-xl text-neutral-700 font-semibold mb-2">Enter your details to proceed</h1>
+                                <h1 class="text-sm sm:text-xl text-neutral-700 font-semibold mb-2">Enter your details to proceed</h1>
 
                                 <form @submit.prevent="pay">
                                     <div class="mb-3">
@@ -180,9 +201,14 @@ const breadcumb = [
                                         <Input type="email" v-model="payerDetails.email" placeholder="mail.example.com" required />
                                     </div>
 
-                                    <div class="mb-5">
+                                    <div class="mb-3">
                                         <Label required="true">Phone No</Label>
                                         <Input type="tel" v-model="payerDetails.phone" placeholder="+2346596058000" required />
+                                    </div>
+
+                                    <div class="mb-5 flex items-center">
+                                        <Checkbox v-model="payerDetails.remember" class="mr-2" />
+                                        <span class="text-sm text-neutral-700 cursor-pointer" @click="payerDetails.remember=!payerDetails.remember">Save details.</span>
                                     </div>
 
                                     <div class="flex justify-between space-x-3">

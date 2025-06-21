@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Competition;
 use App\Models\Contestant;
+use App\Models\Terms;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -26,7 +27,7 @@ class DashboardController extends Controller
 
 
 
-    
+
     // 📄 Returns the view for creating a new competition
     public function create()
     {
@@ -63,6 +64,46 @@ class DashboardController extends Controller
             'competition' => $competition,
         ]);
     }
+
+
+
+
+    // 📄 Returns the view for updating terms
+    public function terms()
+    {
+        $terms = Terms::first();
+
+        // If no terms row exists, create a default one
+        if (!$terms) {
+            $terms = Terms::create([
+                'content' => '<p>Enter your terms and conditions here...</p>',
+            ]);
+        }
+
+        return Inertia::render('dashboard/Terms', [
+            'terms' => $terms,
+        ]);
+    }
+
+
+
+    public function updateTerms(Request $request)
+    {
+        $data = $request->validate([
+            'content' => 'required|string|max:100000',
+        ]);
+
+        $terms = Terms::first();
+
+        if (!$terms) {
+            return back()->with('error', 'Terms not found.');
+        }
+
+        $terms->update($data);
+
+        return back()->with('success', 'Terms updated successfully.');
+    }
+
 
 
 

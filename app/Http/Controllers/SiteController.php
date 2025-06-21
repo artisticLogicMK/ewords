@@ -94,6 +94,14 @@ class SiteController extends Controller
                     ? asset('storage/' . $competition->cover)
                     : asset('/assets/default_cover.png'),
             ],
+            'jsonLd' => [
+                '@context' => 'https://schema.org',
+                '@type' => 'Event',
+                'name' => $$competition->title,
+                'url' => url("/competitions/{$competition->slug}"),
+                'image' => asset("storage/{$competition->cover}"),
+                'description' => $competition->description,
+            ],
         ]);
     }
 
@@ -256,6 +264,8 @@ class SiteController extends Controller
 
         // Show page only if voting is active
         if ($competition->registration_active == 0 && $competition->voting_active == 1) {
+            $description = "Vote for ".$contestant->name."'s piece in ".$competition->title;
+
             return Inertia::render('Contestant', [
                 'contestant' => $contestant,
                 'competition' => $competition->makeHidden($this->hiddenFields),
@@ -265,11 +275,33 @@ class SiteController extends Controller
                 ]),
                 'ogMeta' => [
                     'title' => 'Vote for '. $contestant->name .' - '. config('app.fullname'),
-                    'description' => "Vote for ".$contestant->name."'s piece in ".$competition->title,
+                    'description' => $description,
                     'image' => $contestant->picture_path && Storage::disk('public')->exists($contestant->picture_path)
                         ? asset('storage/' . $contestant->picture_path)
                         : asset('/assets/default_contestant.png'),
                 ],
+                'jsonLd' => [
+                    [
+                        '@context' => 'https://schema.org',
+                        '@type' => 'Person',
+                        'name' => $contestant->name,
+                        'url' => route('site.contestant', [
+                            'competition' => $competition->slug,
+                            'contestant' => $contestant->slug,
+                        ]),
+                        'image' => asset("storage/{$contestant->picture_path}"),
+                        'description' => $description,
+                    ],
+                    [
+                        '@context' => 'https://schema.org',
+                        '@type' => 'VideoObject',
+                        'name' => "{$contestant->name} Contest Video",
+                        'description' => $description,
+                        'thumbnailUrl' => asset("storage/{$contestant->picture_path}"),
+                        'uploadDate' => $contestant->created_at->toDateString(),
+                        'contentUrl' => asset("storage/{$contestant->video_path}"),
+                    ]
+                ]
             ]);
         } else {
             return redirect()->route('site.competition', $competition->slug)

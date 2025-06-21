@@ -5,7 +5,7 @@ import { PhCaretRight } from '@phosphor-icons/vue'
 
 const page = usePage()
 
-const props = defineProps(['title', 'breadcumb', 'extra', 'image', 'picture'])
+const props = defineProps(['title', 'breadcumb', 'extra', 'image', 'picture', 'alt'])
 
 const bgImage = props.image ? `/storage/${props.image}` : '/assets/mesh.png'
 
@@ -42,7 +42,7 @@ const isItActive = link => page.url.split('?')[0] === link.url
                 {{ extra }}
             </div>
 
-            <img v-if="picture" :src="picture" class="w-40 mx-auto object-center object-cover shadow-lg rounded-md mt-5" />
+            <img v-if="picture" :src="picture" :alt="alt" :title="alt" class="w-40 mx-auto object-center object-cover shadow-lg rounded-md mt-5" />
         </div>
      </div>
 
